@@ -1,10 +1,38 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import { Routes, Route } from "react-router-dom";
 import './App.css';
+import { 
+  Home,
+  Login,
+  Signup,
+  Calendar, 
+  Community, 
+  MyPage,
+  Post,
+  PostDetail,
+  NotFound,
+} from './pages';
+import {
+  Header,
+} from './components';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <Header />
+      <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/post" element={<Post />} />
+            <Route path="/postdetail/:id" element={<PostDetail />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +45,8 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
+
     </div>
   );
 }
