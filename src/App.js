@@ -5,6 +5,7 @@ import {
   Home,
   Login,
   Signup,
+  Logout,
   Calendar, 
   Community, 
   MyPage,
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/community" element={<Community />} />
