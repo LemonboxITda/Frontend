@@ -5,19 +5,24 @@ const Header = () => {
         <div>
             <Navbar bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand href="/">Lemonbox</Navbar.Brand>
+                    <Navbar.Brand href="/">Home</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link href="/calendar">Calendar</Nav.Link>
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="mypage">My Page</NavDropdown.Item>
-                                <NavDropdown.Item href="community">community</NavDropdown.Item>
-                                <NavDropdown.Item href="post">post</NavDropdown.Item>
+                            <Nav.Link href="/community">Community</Nav.Link>
+
+                            {/* 로그아웃 후 */}
+                            {/* <NavDropdown title="My Page" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/mypage">My Page</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                            </NavDropdown>
+                                <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                            </NavDropdown> */}
+
+                            {/* 로그아웃 전 */}
+                            <Nav.Link href="/login">Login</Nav.Link>
+
+                            <Nav.Link href="/">Lemonbox</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
