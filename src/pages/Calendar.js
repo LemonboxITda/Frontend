@@ -1,11 +1,8 @@
+import React, {useState} from "react";
+import moment from "moment";
+import Calendar from "./calendar/index"
 
-
-const Calendar = () => {
-    return (
-        <div>
-            Calendar
-        </div>
-    )
+export default function Pages() {
+    const [value, setValue] = useState(moment());
+    return <Calendar value={value} onChange={setValue}/>;
 }
-
-export default Calendar;
