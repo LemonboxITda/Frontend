@@ -7,4 +7,5 @@ export { default as Calendar } from "./Calendar";
 export { default as Community } from "./Community";
 export { default as Post } from "./Post";
 export { default as PostDetail } from "./PostDetail";
+export { default as MyPageComList } from "./MyPageComList";
 export { default as NotFound } from "./NotFound";

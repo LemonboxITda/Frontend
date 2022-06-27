@@ -11,6 +11,7 @@ import {
   MyPage,
   Post,
   PostDetail,
+  MyPageComList,
   NotFound,
 } from './pages';
 import {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/community" element={<Community />} />
             <Route path="/post" element={<Post />} />
             <Route path="/postdetail/:id" element={<PostDetail />} />
+            <Route path="/mypage/community/:id" element={<MyPageComList />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 
