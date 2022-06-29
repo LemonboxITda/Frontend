@@ -1,6 +1,10 @@
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import React, { useContext } from "react";
+import { AuthContext } from "../App";
 
 const Header = () => {
+    const authContext = useContext(AuthContext);
+
     return (
         <div>
             <Navbar bg="light" expand="lg">
@@ -11,17 +15,20 @@ const Header = () => {
                         <Nav className="me-auto">
                             <Nav.Link href="/calendar">Calendar</Nav.Link>
                             <Nav.Link href="/community">Community</Nav.Link>
-
-                            {/* 로그아웃 후 */}
-                            {/* <NavDropdown title="My Page" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/mypage">My Page</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
-                            </NavDropdown> */}
-
-                            {/* 로그아웃 전 */}
-                            <Nav.Link href="/login">Login</Nav.Link>
-
+                            {
+                                !authContext.state.token ? (
+                                    <NavDropdown title="My Page" id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/mypage">My Page</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                                    </NavDropdown>
+                                ) : (
+                                    <NavDropdown title="Login" id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                                        <NavDropdown.Item href="/signup">Sign Up</NavDropdown.Item>
+                                    </NavDropdown>
+                                )
+                            }
                             <Nav.Link href="/">Lemonbox</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
