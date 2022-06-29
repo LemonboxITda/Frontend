@@ -16,16 +16,17 @@ const Header = () => {
                             <Nav.Link href="/calendar">Calendar</Nav.Link>
                             <Nav.Link href="/community">Community</Nav.Link>
                             {
-                                !authContext.state.token ? (
+                                authContext.state.token === null ? 
+                                (
+                                    <NavDropdown title="Login" id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                                        <NavDropdown.Item href="/signup">Sign Up</NavDropdown.Item>
+                                    </NavDropdown>
+                                ) : (
                                     <NavDropdown title="My Page" id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/mypage">My Page</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
-                                    </NavDropdown>
-                                ) : (
-                                    <NavDropdown title="Login" id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                                        <NavDropdown.Item href="/signup">Sign Up</NavDropdown.Item>
                                     </NavDropdown>
                                 )
                             }

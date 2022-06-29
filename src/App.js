@@ -31,11 +31,13 @@ const reducer = (state, action) => {
       return {
         token: action.token,
         id: action.id,
+        loginId: action.loginId,
       };
     case "logout":
       return {
         token: null,
         id: null,
+        loginId: null,
       };
     default:
       return state;
@@ -46,6 +48,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, {
     token: null,
     id: null,
+    loginId: null,
   });
 
   useEffect(() => {
@@ -55,15 +58,16 @@ function App() {
       const loggedInfo = await JSON.parse(
         localStorage.getItem("loggedInfo")
       );
-      // console.log("-------------새로 고침------------");
-      // console.log(loggedInfo);
+      console.log("-------------새로 고침------------");
+      console.log(loggedInfo);
 
       if (loggedInfo) {
-        const { token, id } = loggedInfo;
+        const { token, id, loginId } = loggedInfo;
         await dispatch({
           type: "login",
           token: token,
-          id: id,
+          id: id,  // 유저 고유 id
+          loginId: loginId,  // 유저 아이디
         });
       } else {
         await dispatch({
