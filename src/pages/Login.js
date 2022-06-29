@@ -1,22 +1,81 @@
-
+import styled from "styled-components";
+import React, { useEffect, useState, useContext } from 'react';
+import axios from "axios";
+import { AuthContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const authContext = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [userData, setUserData] = useState({
+        loginId: "",
+        password: "",
+    });
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        
+        const post = async () => {
+            try {
+                const res = await axios.post("http://localhost:8080/auth/signin",
+                    userData, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: "application/json",
+                        }
+                    }
+                )
+                console.log('res', res);
+                authContext.dispatch({
+                    type: "login",
+                    token: res.data.accessToken,
+                    id: res.data.userInfo.id,
+                    loginId: res.data.userInfo.loginId,
+                });
+                localStorage.setItem(
+                    "loggedInfo",
+                    JSON.stringify({ 
+                        token: res.data.accessToken,
+                        id: res.data.userInfo.id,
+                        loginId: res.data.userInfo.loginId,
+                    })
+                );
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        await post();
+    };
+
+    useEffect(() => {
+        if (authContext.state.token !== null) {
+            navigate("/"); // 로그인 성공 시 흠으로 이동
+        }
+    }, [authContext.state.token])
+
     return (
         <div>
             <h3 style={{ margin: '50px 0' }}>로그인</h3>
-            <form class="container col-lg-4 col-sm-6 col-10">
+            <form class="container col-lg-4 col-sm-6 col-10" onSubmit={submitHandler}>
                 <div class="row justify-content-center">
                     <div class="mb-4">
-                        <input type="text" id="form2Example1" class="form-control" placeholder="아이디" />
+                        <input type="text" id="form2Example1" class="form-control" placeholder="아이디" 
+                            onChange={
+                                (e) => setUserData({ ...userData, loginId: e.target.value })
+                            } />
                     </div>
                 </div>
 
                 <div class="row justify-content-center">
                     <div class="form-outline mb-4">
-                        <input type="password" id="form2Example2" class="form-control" placeholder="비밀번호" />
+                        <input type="password" id="form2Example2" class="form-control" placeholder="비밀번호" 
+                            onChange={
+                                (e) => setUserData({ ...userData, password: e.target.value })
+                            }/>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-block mb-4 col-12">로그인</button>
+                <button type="submit" class="btn btn-primary btn-block mb-4 col-12">로그인</button>
 
                 <div class="text-center">
                     <p>회원이 아니신가요? <a href="/signup">회원가입</a></p>
