@@ -50,12 +50,11 @@ const Signup = () => {
                     console.log(status, data);
                     if (status === 200) {
                         navigate("/login"); // 회원가입 성공 시 로그인창으로 이동
-                    } else {
-                        alert('회원가입에 실패했습니다.');
                     }
                 })
                 .catch((e) => {
                     console.log(e);
+                    alert('회원가입에 실패하였습니다.');
                 });
         }
     }

@@ -43,6 +43,11 @@ const Login = () => {
                 );
             } catch (e) {
                 console.log(e);
+                if (e.response.status === 400 || e.response.status === 406) {
+                    alert('ID 또는 비밀번호가 틀렸습니다.');
+                } else {
+                    alert('네트워크 에러');
+                }
             }
         }
         await post();
