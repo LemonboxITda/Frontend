@@ -65,7 +65,7 @@ const Login = () => {
             <form class="container col-lg-4 col-sm-6 col-10" onSubmit={submitHandler}>
                 <div class="row justify-content-center">
                     <div class="mb-4">
-                        <input type="text" id="form2Example1" class="form-control" placeholder="아이디" 
+                        <input type="text" class="form-control" placeholder="아이디" 
                             onChange={
                                 (e) => setUserData({ ...userData, loginId: e.target.value })
                             } />
@@ -74,7 +74,7 @@ const Login = () => {
 
                 <div class="row justify-content-center">
                     <div class="form-outline mb-4">
-                        <input type="password" id="form2Example2" class="form-control" placeholder="비밀번호" 
+                        <input type="password" class="form-control" placeholder="비밀번호" 
                             onChange={
                                 (e) => setUserData({ ...userData, password: e.target.value })
                             }/>
