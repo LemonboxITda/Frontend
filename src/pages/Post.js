@@ -5,6 +5,12 @@ import { postApi } from '../api';
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
+    
+    h3 {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
     textarea {
         resize: none;
     }
@@ -40,7 +46,7 @@ const Post = () => { // 글 작성 페이지
     return (
         <Wrapper>
             <form class="container col-10" style={{ marginTop: '50px' }} onSubmit={submitHandler}>
-                {/* <h3>글 작성하기</h3> */}
+                <h3>글 작성하기</h3>
                 <div class="row justify-content-center mb-4">
                     <textarea class="form-control" placeholder="글 제목 작성" rows={1}
                         onChange={
