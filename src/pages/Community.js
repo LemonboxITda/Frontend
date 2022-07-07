@@ -13,7 +13,8 @@ const Wrapper = styled.div`
     }
     
     .board-filter {
-        padding: 12px 15px;
+        padding: 12px 0;
+        margin: 0;
         border-bottom: 1px solid #e8eef1;
     }
 
@@ -78,10 +79,8 @@ const Community = () => {
     return (
         <Wrapper>
             <div class="container">
-                <div class="col-12">
-                    <div class="board">
+                <div class="col-12 board">
                         <div class="row board-filter">
-                            {/* col-lg-4 col-sm-6 col-10 */}
                             <div class="row col-10">
                                 <div class="col-10 search-bar">
                                     <input type="search" class="form-control input-sm " placeholder="Search" />
@@ -103,9 +102,7 @@ const Community = () => {
                                 <OnePost id={2} />
                             </ul>
                         </div>
-
                         pages
-                    </div>
                 </div>
             </div>
         </Wrapper>

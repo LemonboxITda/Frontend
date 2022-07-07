@@ -4,3 +4,7 @@ export { default as MyPageCom } from "./MyPageCom";
 export { default as MyPageInfo } from "./MyPageInfo";
 export { default as MyPageSup } from "./MyPageSup";
 export { default as OnePost } from "./OnePost";
+export { default as Comments } from "./Comments";
+export { default as OneComment } from "./OneComment";
+export { default as WriteComment } from "./WriteComment";
+export { default as OnePostDetail } from "./OnePostDetail";
