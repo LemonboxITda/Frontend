@@ -9,7 +9,7 @@ const deleteApi = async (data, end_url, token) => {
             Accept: "application/json",
         },
     };
-    // config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers["Authorization"] = `${token}`;
     
     return await axios.delete(process.env.REACT_APP_BACK_BASE_URL + end_url, config);
 };
