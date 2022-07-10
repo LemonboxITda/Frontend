@@ -8,6 +8,16 @@ const Logout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        ////////// 임의 코드
+        authContext.dispatch({
+            type: "logout",
+            token: null,
+            id: null,
+            loginId: null,
+        });
+        localStorage.clear(); 
+        navigate('/');
+        ////////////////
         const getLogout = async () => {
             await getApi({}, "/auth/logout")
             .then(({ status, data }) => {
@@ -29,7 +39,7 @@ const Logout = () => {
                 alert('로그아웃 실패');
             });
         };
-        getLogout();
+        // getLogout();
     }, [authContext, navigate]);
 
     return (
