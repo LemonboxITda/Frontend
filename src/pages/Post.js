@@ -29,7 +29,7 @@ const Post = () => { // 글 작성 페이지
         e.preventDefault();
         await postApi(
             contents,
-            `/post`,  // 추후 변경
+            `/post`,
             authContext.state.token
         )
             .then(({ status, data }) => {

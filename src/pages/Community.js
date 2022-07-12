@@ -1,8 +1,12 @@
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../App";
 import { OnePost } from "../components";
+import { getApi } from '../api';
 import styled from "styled-components";
 import { Colors } from '../styles/ui';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
     .board {
@@ -52,7 +56,7 @@ const Wrapper = styled.div`
         .search-bar input, 
         .search-btn button {
             white-space: nowrap;
-            font-size: 10px;
+            font-size: 12px;
         }
     }
     
@@ -76,33 +80,70 @@ const Wrapper = styled.div`
     
 `
 const Community = () => {
+    const authContext = useContext(AuthContext);
+    const [posts, setPosts] = useState([]);
+    const [size, setSize] = useState(10);
+    const [page, setPage] = useState(0);
+
+    useEffect(() => {
+        const getPost = async () => {
+            await getApi(
+                {},
+                `/post?size=${size}&page=${page}`,
+                authContext.state.token,
+            )
+                .then(({ status, data }) => {
+                    // console.log('GET post', status, data.data);
+                    if (status === 200 && data.statusCodeValue === undefined) {
+                        setPosts(data.data);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+        getPost();
+    }, [authContext.state.token])
+
     return (
         <Wrapper>
             <div class="container">
                 <div class="col-12 board">
-                        <div class="row board-filter">
-                            <div class="row col-10">
-                                <div class="col-10 search-bar">
-                                    <input type="search" class="form-control input-sm " placeholder="Search" />
-                                </div>
-                                <div class="col-2 search-btn">
-                                    <button class="btn btn-primary col-12"><i class="bi bi-search"></i></button>
-                                </div>
+                    <div class="row board-filter">
+                        <div class="row col-10">
+                            <div class="col-10 search-bar">
+                                <input type="search" class="form-control input-sm " placeholder="Search" />
                             </div>
-                            <div class="col-2 post-btn">
-                                <Link to='/write'>
-                                    <button class="btn btn-secondary col-12">글 작성</button>
-                                </Link>
+                            <div class="col-2 search-btn">
+                                <button class="btn btn-primary col-12"><i class="bi bi-search"></i></button>
                             </div>
                         </div>
+                        <div class="col-2 post-btn">
+                            <Link to='/write'>
+                                <button class="btn btn-secondary col-12">글 작성</button>
+                            </Link>
+                        </div>
+                    </div>
 
-                        <div class="inbox-message">
-                            <ul>
-                                <OnePost id={1} />
-                                <OnePost id={2} />
-                            </ul>
-                        </div>
-                        pages
+                    <div class="inbox-message">
+
+                        {
+                            posts ?
+                            (
+                                posts.map(post => (
+                                    <ul>
+                                        <OnePost key={post.id} post={post} />
+                                    </ul>
+                                ))
+                            ) : (
+                                    <div>
+                                        아직 글이 없어요.
+                                    </div>
+                                )
+                        }
+                        {/* <OnePost key={0} id={0} title={'룰루'} /> */}
+                    </div>
+                    pages
                 </div>
             </div>
         </Wrapper>

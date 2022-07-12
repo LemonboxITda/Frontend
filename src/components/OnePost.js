@@ -15,11 +15,11 @@ const Wrapper = styled.div`
     .message-body-heading span {
         float: right;
         color: ${Colors.gray2};
-        font-size: 12px;
+        font-size: 14px;
     }
     .message-body p {
         margin: 0 15px;
-        font-size: 15px;
+        font-size: 16px;
         text-align: left;
         display: inline-block;
         width: 100%;
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 
     .message-body .icons {
         color: ${Colors.gray2};
-        font-size: 12px;
+        font-size: 14px;
         text-align: right;
     }
 
@@ -55,30 +55,31 @@ const Wrapper = styled.div`
             font-size: 16px;
         }
         .message-body p {
-            font-size: 12px;
+            font-size: 14px;
         }
         .message-body-heading span,
         .message-body .icons {
-            font-size: 10px;
+            font-size: 12px;
         }
     }
 `
-const OnePost = ({ id }) => {
+const OnePost = ({ post }) => {
+    const writerData = post.writer
     return (
         <Wrapper>
             <li>
-                <Link to={`/post/${id}`}>
+                <Link to={`/post/${post.id}`}>
                     <div class="message-body">
                         <div class="d-flex justify-content-between message-body-heading">
-                            <h5>title {id}</h5>
-                            <span>날짜 및 시간</span>
+                            <h5>{post.title}</h5>
+                            <span>{post.createdAt}</span>
                         </div>
-                        <p>Hello, Lididunt ut labore et dolorsdfs dfsd fsdfsd fsdfs.</p>
+                        <p>{post.content}</p>
                         <div class="icons">
-                            <span>작성자</span>
-                            <span><i class="bi bi-eye"></i>5</span>
-                            <span><i class="bi bi-chat-left-dots"></i>10</span>
-                            <span><i class="bi bi-heart"></i>14</span>
+                            <span>{writerData.nickname}</span>
+                            <span><i class="bi bi-eye"></i>{post.views}</span>
+                            {/* <span><i class="bi bi-chat-left-dots"></i>10</span> */}
+                            <span><i class="bi bi-heart"></i>{post.likeCount}</span>
                         </div>
                     </div>
                 </Link>
