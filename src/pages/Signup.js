@@ -20,20 +20,24 @@ const Signup = () => {
         nickname: "",
     });
     const [confirmPW, setConfirmPW] = useState("");
-    // const [idCheck, setIdCheck] = useState(null);
-    // const [nameCheck, setNameCheck] = useState(null);
-    const [idCheck, setIdCheck] = useState(true);
-    const [nameCheck, setNameCheck] = useState(true);
+    const [idCheck, setIdCheck] = useState(null);
+    const [nameCheck, setNameCheck] = useState(null);
+    const [idCheckMsg, setIdCheckMsg] = useState('');
+    const [nameCheckMsg, setNameCheckMsg] = useState('');
+
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+            Accept: "application/json",
+        },
+    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        const config = {
-            headers: {
-                "Content-type": "application/json",
-                Accept: "application/json",
-            },
-        };
-        if (idCheck !== true || nameCheck !== true || userData.password !== confirmPW) {
+        
+        if (idCheck !== 200 
+            || nameCheck !== 200
+            || userData.password !== confirmPW) {
             alert('입력칸을 모두 작성하고 체크를 완료해주세요.');
         } else {
             // postAPI 회원가입 
@@ -46,23 +50,67 @@ const Signup = () => {
                     console.log(status, data);
                     if (status === 200) {
                         navigate("/login"); // 회원가입 성공 시 로그인창으로 이동
-                    } else {
-                        alert('회원가입에 실패했습니다.');
                     }
                 })
                 .catch((e) => {
                     console.log(e);
+                    alert('회원가입에 실패하였습니다.');
                 });
         }
     }
 
-    const clickCheckBtn = (c) => {
+    const clickCheckBtn = async (c) => {
         if (c === 'id') {
             // id 중복체크 getAPI
+            await axios.get(
+                `http://localhost:8080/auth/check/id?loginId=${userData.loginId}`,
+                config
+            )
+                .then(({ status, data }) => {
+                    console.log(status, data);
+                    if (status === 200) {
+                        setIdCheck(200);
+                    } 
+                })
+                .catch((e) => {
+                    setIdCheck(e.response.status);
+                    // console.log(e.response.status);
+                });
         } else {
             // nickname 중복체크 getAPI
+            await axios.get(
+                `http://localhost:8080/auth/check/nickname?nickname=${userData.nickname}`,
+                config
+            )
+                .then(({ status, data }) => {
+                    console.log(status, data);
+                    if (status === 200) {
+                        setNameCheck(200);
+                    } 
+                })
+                .catch((e) => {
+                    setNameCheck(e.response.status);
+                    // console.log(e.response.status);
+                });
         }
     }
+
+    useEffect(() => {
+        if (idCheck === 200) {
+            setIdCheckMsg('사용가능한 ID입니다.');
+        } else if (idCheck === 401) {
+            setIdCheckMsg('ID 형식이 올바르지 않습니다.');
+        } else if (idCheck === 409) {
+            setIdCheckMsg('이미 사용중인 ID입니다. 다른 ID을 입력해주세요.');
+        }
+        if (nameCheck === 200) {
+            setNameCheckMsg('사용가능한 닉네임입니다.');
+        } else if (nameCheck === 401) {
+            setNameCheckMsg('닉네임 형식이 올바르지 않습니다.');
+        } else if (nameCheck === 409) {
+            setNameCheckMsg('이미 사용중인 닉네임입니다. 다른 닉네임을 입력해주세요.');
+        }
+    }, [idCheck, nameCheck])
 
     return (
         <Wrapper>
@@ -82,13 +130,8 @@ const Signup = () => {
                     </button>
                 </div>
                 {
-                    idCheck !== null && (
-                        idCheck ? (
-                            <p className="detail-text">사용가능한 아이디입니다.</p>
-                        ) : (
-                            <p className="detail-text">이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.</p>
-                        )
-                    )
+                    idCheck !== null && 
+                    <p className="detail-text">{idCheckMsg}</p>
                 }
                 <div class="row justify-content-center">
                     <div class="form-outline mb-4">
@@ -126,13 +169,8 @@ const Signup = () => {
                     </button>
                 </div>
                 {
-                    idCheck !== null && (
-                        idCheck ? (
-                            <p className="detail-text">사용가능한 닉네임입니다.</p>
-                        ) : (
-                            <p className="detail-text">이미 사용중인 닉네임입니다. 다른 닉네임을 입력해주세요.</p>
-                        )
-                    )
+                    nameCheck !== null && 
+                    <p className="detail-text">{nameCheckMsg}</p>
                 }
 
                 <button type="submit" class="btn btn-primary btn-block mb-4 col-12">
