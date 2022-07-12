@@ -15,7 +15,6 @@ const Wrapper = styled.div`
 
 const MyPageInfo = () => {
     const authContext = useContext(AuthContext);
-
     const [nickname, setNickname] = useState('');
 
     // 모달 창
@@ -29,23 +28,23 @@ const MyPageInfo = () => {
     };
 
     useEffect(() => {
-        // const getInfo = async () => {
-        //     await getApi(
-        //         {},
-        //         `/api`,  // 추후 변경
-        //         authContext.state.token,
-        //     )
-        //         .then(({ status, data }) => {
-        //             // console.log('status:', status);
-        //             if (status === 200) {
-        //                 setNickname(data);
-        //             }
-        //         })
-        //         .catch((e) => {
-        //             console.log(e);
-        //         });
-        // }
-        // getInfo();
+        const getInfo = async () => {
+            await getApi(
+                {},
+                `/user`,
+                authContext.state.token,
+            )
+                .then(({ status, data }) => {
+                    console.log('GET Info:', status, data);
+                    if (status === 200 && data.statusCodeValue === undefined) {
+                        setNickname(data.nickname);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+        getInfo();
     }, [modalOpen])
 
     return (
@@ -59,7 +58,7 @@ const MyPageInfo = () => {
             {/* <button class="btn btn-outline-secondary btn-sm mb-4 modify-btn" onClick={openModal}>정보수정</button> */}
             
         </Wrapper>
-        <ModalInfo open={modalOpen} close={closeModal} header={"정보수정"} />
+        <ModalInfo open={modalOpen} close={closeModal} header={"정보수정"} nickname={nickname} />
         </>
     )
 }

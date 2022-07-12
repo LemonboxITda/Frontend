@@ -124,8 +124,9 @@ const MyPageSup = () => {
     const getSupplement = async () => { // 영양제 정보 GET 
         await getApi({}, '/supplement', authContext.state.token)
             .then(({ status, data }) => {
-                console.log('GET:', status, data.statusCodeValue, data);
+                
                 if (status === 200 && data.statusCodeValue === undefined) {
+                    // console.log('GET:', status, data.statusCodeValue, data);
                     setSupRawData(data);  // 얘를 지우면 첫번재 렌더링 시 제대로 안되는 이유? supRawData 이용하는 부분이 없는데..
                     data && 
                     data !== [] &&

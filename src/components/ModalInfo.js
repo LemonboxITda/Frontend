@@ -96,11 +96,28 @@ const Wrapper = styled.div`
     }
 `
 
-const ModalInfo = ({ open, close, header }) => {
+const ModalInfo = ({ open, close, header, nickname }) => {
     const authContext = useContext(AuthContext);
+    const [name, setName] = useState(nickname);
 
-    const save = () => {
-        
+    const save = async () => {
+        await putApi(
+            {
+                nickname: name,
+            },
+            '/user',
+            authContext.state.token
+        )
+        .then(({ status, data }) => {
+            console.log('PUT ', status, data);
+            close()
+        })
+        .catch((e) => {
+            console.log(e);
+            if (e.response.status === 404) {
+                alert('해당 ID의 영양제를 찾을 수 없습니다.');
+            }
+        });
     }
 
     return (
@@ -114,9 +131,14 @@ const ModalInfo = ({ open, close, header }) => {
                                 &times;
                             </button>
                         </header>
-                        <main>
-                            
-                            
+                        <main class="row">
+                            <span class="col-4 align-self-center">닉네임 변경:</span>
+                            <span class="col-8 align-self-center">
+                                <input type="text" class="form-control"
+                                    onChange={
+                                        (e) => setName(e.target.value)
+                                    }/>
+                            </span>
                         </main>
                         <footer>
                             <button class="btn btn-primary save" onClick={save}>
