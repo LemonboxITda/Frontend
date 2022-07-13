@@ -4,6 +4,7 @@ export const Colors = {
     vitamin: '#FFA800',
     probio: '#333366',
     omega: '#336600',
+    blue: '#007bff',
     white: '#FFFFFF',
     black: '#000000',
 }

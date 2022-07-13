@@ -51,41 +51,44 @@ const WritePost = ({ type }) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        if (type === 'new') {
-            await postApi(
-                contents,
-                `/post`,
-                authContext.state.token
-            )
-                .then(({ status, data }) => {
-                    // console.log('status:', status);
-                    if (status === 200) {
-                        navigate("/community");
-                    }
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-        } else if (type === 'modify') {
-            await putApi(
-                contents,
-                `/post?postId=${params.id}`,
-                authContext.state.token
-            )
-                .then(({ status, data }) => {
-                    // console.log('status:', status);
-                    if (status === 200) {
-                        navigate("/community");
-                    }
-                })
-                .catch((e) => {
-                    console.log(e);
-                    if (e.response.status === 404) {
-                        alert('해당 게시글을 찾을 수 없습니다.');
-                    }
-                });
+        if (contents.title === '' || contents.content === '') {
+            alert('제목과 내용을 작성해주세요.');
+        } else {
+            if (type === 'new') {
+                await postApi(
+                    contents,
+                    `/post`,
+                    authContext.state.token
+                )
+                    .then(({ status, data }) => {
+                        // console.log('status:', status);
+                        if (status === 200) {
+                            navigate("/community");
+                        }
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            } else if (type === 'modify') {
+                await putApi(
+                    contents,
+                    `/post?postId=${params.id}`,
+                    authContext.state.token
+                )
+                    .then(({ status, data }) => {
+                        // console.log('status:', status);
+                        if (status === 200) {
+                            navigate("/community");
+                        }
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                        if (e.response.status === 404) {
+                            alert('해당 게시글을 찾을 수 없습니다.');
+                        }
+                    });
+            }
         }
-        
     }
     return (
         <Wrapper>
