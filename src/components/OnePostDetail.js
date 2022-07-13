@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../App";
-import { getApi } from "../api";
+import { getApi, deleteApi, postApi } from "../api";
 import styled from "styled-components";
 import { Colors } from '../styles/ui';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
 
@@ -30,7 +31,10 @@ const Wrapper = styled.div`
             color: ${Colors.gray2};
             font-size: 12px;
         }
-
+        .viewcnt {
+            font-size: 12px;
+            margin-left: 10px;
+        }
         
     }
 
@@ -58,6 +62,7 @@ const Wrapper = styled.div`
     .icons i {
         padding-right: 3px;
     }
+    
 
     .lower-section {
         text-align: left;
@@ -83,35 +88,130 @@ const Wrapper = styled.div`
 
 const OnePostDetail = ({ id }) => {
     const authContext = useContext(AuthContext);
+    const [postData, setPostData] = useState();
+    const [heartChange, setHeartChange] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(authContext.state.token)
+        const getPostDetail = async () => {
+            await getApi(
+                {},
+                `/post/detail/${id}`,
+                authContext.state.token,
+            )
+                .then(({ status, data }) => {
+                    console.log('GET post detail', status, data);
+                    if (status === 200 && data.statusCodeValue === undefined) {
+                        setPostData(data);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+        getPostDetail();
+    }, [authContext.state.token, heartChange])
+
+    // useEffect(() => {
+    //     console.log(postData);
+    // }, [postData])
+
+    const onClickDel = async () => {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            await deleteApi(
+                {},
+                `/post?id=${id}`,
+                authContext.state.token,
+            )
+                .then(({ status, data }) => {
+                    console.log('DEL post', status, data);
+                    if (status === 200 && data.statusCodeValue === undefined) {
+                        alert('삭제되었습니다.');
+                        navigate('/community');
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+    }
+
+    const delLike = async () => {
+        await deleteApi(
+            {},
+            `/heart/${id}`,
+            authContext.state.token,
+        )
+            .then(({ status, data }) => {
+                console.log('DEL heart', status, data);
+                if (status === 200 && data.statusCodeValue === undefined) {
+                    setHeartChange(!heartChange);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    const onClickLike = async () => {
+        // post : 200(success) 400(이미 좋아요한 게시글) 404(error)
+        await postApi(
+            {}, 
+            `/heart/${id}`, 
+            authContext.state.token,
+        )
+        .then(({ status, data }) => {
+            console.log('POST heart', status, data);
+            if (status === 200 && data.statusCodeValue === undefined) {
+                setHeartChange(!heartChange);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+            if (e.response.status === 400) { //  && e.response.code === 'ALREADY_LIKED'
+                delLike();
+            }
+        });
+    }
 
     return (
         <Wrapper>
             <div class="row upper-section">
                 <div class="col-8 mb-1 left-side">
                     <span class="writer">
-                        작성자
+                        {postData && postData.writer.nickname}
                     </span>
                     <span class="date">
-                        날짜 및 시간
+                        {postData && postData.createdAt}
                     </span>
+                    <span class="icons viewcnt"><i class="bi bi-eye"></i>{postData && postData.views}</span>
+
                 </div>
                 <div class="col-4 mb-1 right-side">
-                    <span>수정</span>
-                    <span> | </span>
-                    <span>삭제</span>
+                    {postData && 
+                    postData.writer.id === authContext.state.id &&
+                        <>
+                            <span>수정</span>
+                            <span> | </span>
+                            <span style={{cursor: 'pointer'}} onClick={onClickDel}>삭제</span>
+                        </>
+                    }
                 </div>
             </div>
 
-            <div class="middle-section">
-                <h3 class="title">title</h3>
-                <div class="content">content</div>
-                <div class="mb-2 icons like"><i class="bi bi-heart"></i>12</div>
+            <div class="middle-section mb-3">
+                <h3 class="title">{postData && postData.title}</h3>
+                <div class="content">{postData && postData.content}</div>
+                <div class="mb-2 icons like" onClick={onClickLike}>
+                    <i class="bi bi-heart"></i>{postData && postData.likeCount}
+                </div>
             </div>
-
-            <div class="lower-section mb-2">
-                <span class="icons viewcnt"><i class="bi bi-eye"></i>30</span>
+            
+            {/* <div class="lower-section mb-2">
+                <span class="icons viewcnt"><i class="bi bi-eye"></i>{postData.views}</span>
                 <span class="icons"><i class="bi bi-chat-left-dots"></i>3</span>
-            </div>
+            </div> */}
         </Wrapper>
     )
 }

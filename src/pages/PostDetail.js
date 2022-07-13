@@ -10,9 +10,11 @@ const PostDetail = () => {
     const authContext = useContext(AuthContext);
     const params = useParams();
     const id = params.id;
-
+    console.log('안녕앙년앙아녕')
+    
     return (
         <div class="container">
+            
             <OnePostDetail id={id} />
             <Comments id={id} />
             <WriteComment id={id} />
