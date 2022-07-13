@@ -93,7 +93,6 @@ const OnePostDetail = ({ id }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(authContext.state.token)
         const getPostDetail = async () => {
             await getApi(
                 {},
@@ -113,11 +112,7 @@ const OnePostDetail = ({ id }) => {
         getPostDetail();
     }, [authContext.state.token, heartChange])
 
-    // useEffect(() => {
-    //     console.log(postData);
-    // }, [postData])
-
-    const onClickDel = async () => {
+    const onClickDelete = async () => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             await deleteApi(
                 {},
@@ -135,6 +130,10 @@ const OnePostDetail = ({ id }) => {
                     console.log(e);
                 });
         }
+    }
+
+    const onClickModify = () => {
+        navigate(`/write/modify/${id}`);
     }
 
     const delLike = async () => {
@@ -192,9 +191,9 @@ const OnePostDetail = ({ id }) => {
                     {postData && 
                     postData.writer.id === authContext.state.id &&
                         <>
-                            <span>수정</span>
+                            <span style={{cursor: 'pointer'}} onClick={onClickModify}>수정</span>
                             <span> | </span>
-                            <span style={{cursor: 'pointer'}} onClick={onClickDel}>삭제</span>
+                            <span style={{cursor: 'pointer'}} onClick={onClickDelete}>삭제</span>
                         </>
                     }
                 </div>

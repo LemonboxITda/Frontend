@@ -119,7 +119,7 @@ const Community = () => {
                             </div>
                         </div>
                         <div class="col-2 post-btn">
-                            <Link to='/write'>
+                            <Link to='/write/new/0'>
                                 <button class="btn btn-secondary col-12">글 작성</button>
                             </Link>
                         </div>
