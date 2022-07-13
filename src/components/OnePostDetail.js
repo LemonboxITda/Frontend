@@ -121,7 +121,7 @@ const OnePostDetail = ({ id }) => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             await deleteApi(
                 {},
-                `/post?id=${id}`,
+                `/post?postId=${id}`,
                 authContext.state.token,
             )
                 .then(({ status, data }) => {

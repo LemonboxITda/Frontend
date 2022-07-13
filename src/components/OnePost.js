@@ -8,7 +8,6 @@ const Wrapper = styled.div`
         font-weight: 600;
         display:inline-block;
         color: ${Colors.black};
-        margin-left: 7px;
         padding: 0;
     }
 
@@ -18,7 +17,6 @@ const Wrapper = styled.div`
         font-size: 14px;
     }
     .message-body p {
-        margin: 0 15px;
         font-size: 16px;
         text-align: left;
         display: inline-block;

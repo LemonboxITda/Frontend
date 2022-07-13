@@ -36,9 +36,9 @@ const Wrapper = styled.div`
 const OneComment = ({ comment }) => {
     return (
         <Wrapper>
-            <div class="writer">작성자</div>
-            <div class="content">댓글내용</div>
-            <div class="date">날짜 및 시간</div>
+            <div class="writer">{comment && comment.writer.nickname}</div>
+            <div class="content">{comment && comment.content}</div>
+            <div class="date">{comment && comment.createdAt}</div>
         </Wrapper>
     )
 }
