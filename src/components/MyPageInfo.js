@@ -28,6 +28,8 @@ const MyPageInfo = () => {
     };
 
     useEffect(() => {
+        // [이슈] 페이지 첫 진입 시 authContext 값들이 null인 문제
+        // console.log('authContext.state.token', authContext.state.token)
         const getInfo = async () => {
             await getApi(
                 {},
@@ -45,7 +47,7 @@ const MyPageInfo = () => {
                 });
         }
         getInfo();
-    }, [modalOpen])
+    }, [authContext.state.token, modalOpen])
 
     return (
         <>

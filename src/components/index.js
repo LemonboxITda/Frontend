@@ -10,3 +10,5 @@ export { default as WriteComment } from "./WriteComment";
 export { default as OnePostDetail } from "./OnePostDetail";
 export { default as ModalSup } from "./ModalSup";
 export { default as ModalInfo } from "./ModalInfo";
+export { default as WritePost } from "./WritePost";
+export { default as Pagination } from "./Pagination";

@@ -130,13 +130,13 @@ const MyPageSup = () => {
                     setSupRawData(data);  // 얘를 지우면 첫번재 렌더링 시 제대로 안되는 이유? supRawData 이용하는 부분이 없는데..
                     data && 
                     data !== [] &&
-                    data.map((sup, i) => {
+                    data.map((sup, i) => (
                         supData[sup.name] = {
                             id: sup.id,
                             name: sup.name,
                             count: sup.count,
                         }
-                    });
+                    ));
                 }
             })
             .catch((e) => {
@@ -157,13 +157,13 @@ const MyPageSup = () => {
     // useEffect(() => {
     //     supRawData && 
     //     supRawData !== [] &&
-    //     supRawData.map((sup, i) => {
+    //     supRawData.map((sup, i) => (
     //         supData[sup.name] = {
     //             id: sup.id,
     //             name: sup.name,
     //             count: sup.count,
     //         }
-    //     });
+    //     ));
     // }, [supRawData]);
 
     const Supplement = ({ name, count }) => {

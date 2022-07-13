@@ -90,7 +90,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/community" element={<Community />} />
-          <Route path="/write" element={<Post />} />
+          <Route path="/write/:type/:id" element={<Post />} />
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/mypage/community/:id" element={<MyPageComList />} />
           <Route path="*" element={<NotFound />} />

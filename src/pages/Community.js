@@ -1,8 +1,100 @@
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../App";
 import { OnePost } from "../components";
+import Pagination from "react-js-pagination";
+import { getApi } from '../api';
 import styled from "styled-components";
 import { Colors } from '../styles/ui';
 import "bootstrap-icons/font/bootstrap-icons.css";
+
+const Community = () => {
+    const authContext = useContext(AuthContext);
+    const [posts, setPosts] = useState([]);
+    const [size, setSize] = useState(5);
+    const [total, setTotal] = useState(0);
+    const [page, setPage] = useState(1);
+
+    const getPost = async (p) => {
+        await getApi(
+            {},
+            `/post?size=${size}&page=${p}`,
+            authContext.state.token,
+        )
+            .then(({ status, data }) => {
+                console.log('GET post', status, data);
+                if (status === 200 && data.statusCodeValue === undefined) {
+                    setPosts(data.data);
+                    setTotal(data.totalCount);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    const handlePageChange = (page) => {
+        setPage(page);
+        getPost(page-1);
+    };
+
+    useEffect(() => {
+        getPost(0);
+    }, [authContext.state.token])
+
+    return (
+        <Wrapper>
+            <div class="container">
+                <div class="col-12 board">
+                    <div class="row board-filter">
+                        <div class="row col-10">
+                            <div class="col-10 search-bar">
+                                <input type="search" class="form-control input-sm " placeholder="Search" />
+                            </div>
+                            <div class="col-2 search-btn">
+                                <button class="btn btn-primary col-12"><i class="bi bi-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-2 post-btn">
+                            <Link to='/write/new/0'>
+                                <button class="btn btn-secondary col-12">글 작성</button>
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div class="inbox-message">
+                        {
+                            posts ?
+                                (
+                                    posts.map(post => (
+                                        <ul>
+                                            <OnePost key={post.id} post={post} />
+                                        </ul>
+                                    ))
+                                ) : (
+                                    <div>
+                                        아직 글이 없어요.
+                                    </div>
+                                )
+                        }
+                    </div>
+                    <PageWrapper>
+                    <Pagination
+                        activePage={page}
+                        itemsCountPerPage={size}
+                        totalItemsCount={total}
+                        pageRangeDisplayed={size}
+                        prevPageText={"‹"}
+                        nextPageText={"›"}
+                        onChange={handlePageChange}
+                    />
+                    </PageWrapper>
+                </div>
+            </div>
+        </Wrapper>
+    )
+}
+
 
 const Wrapper = styled.div`
     .board {
@@ -52,7 +144,7 @@ const Wrapper = styled.div`
         .search-bar input, 
         .search-btn button {
             white-space: nowrap;
-            font-size: 10px;
+            font-size: 12px;
         }
     }
     
@@ -72,41 +164,63 @@ const Wrapper = styled.div`
     .inbox-message ul li:hover, .inbox-message ul li:focus {
         background: #eff6f9;
     }
-    
-    
 `
-const Community = () => {
-    return (
-        <Wrapper>
-            <div class="container">
-                <div class="col-12 board">
-                        <div class="row board-filter">
-                            <div class="row col-10">
-                                <div class="col-10 search-bar">
-                                    <input type="search" class="form-control input-sm " placeholder="Search" />
-                                </div>
-                                <div class="col-2 search-btn">
-                                    <button class="btn btn-primary col-12"><i class="bi bi-search"></i></button>
-                                </div>
-                            </div>
-                            <div class="col-2 post-btn">
-                                <Link to='/write'>
-                                    <button class="btn btn-secondary col-12">글 작성</button>
-                                </Link>
-                            </div>
-                        </div>
 
-                        <div class="inbox-message">
-                            <ul>
-                                <OnePost id={1} />
-                                <OnePost id={2} />
-                            </ul>
-                        </div>
-                        pages
-                </div>
-            </div>
-        </Wrapper>
-    )
-}
+const PageWrapper = styled.div`
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  ul.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  ul.pagination li:first-child{
+    border-radius: 5px 0 0 5px;
+  }
+
+  ul.pagination li:last-child{
+    border-radius: 0 5px 5px 0;
+  }
+  
+  ul.pagination li a {
+    text-decoration: none;
+    color: #337ab7;
+    font-size: 1rem;
+  }
+  
+  ul.pagination li.active a {
+    color: ${Colors.white};
+  }
+
+  ul.pagination li.active {
+    background-color: ${Colors.blue};
+  }
+  
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: ${Colors.black};
+  }
+  
+  .page-selection {
+    width: 48px;
+    height: 30px;
+    color: ${Colors.white};
+  }
+`
 
 export default Community;
