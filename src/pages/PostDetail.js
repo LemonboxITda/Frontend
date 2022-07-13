@@ -1,11 +1,9 @@
-import React, { createContext, useContext, useReducer } from "react";
-import { AuthContext } from "../App";
+import React, { createContext, useReducer } from "react";
 import { useParams } from 'react-router-dom';
 import { OnePostDetail, Comments, WriteComment } from "../components";
 export const MyCommentContext = createContext();
 
 const PostDetail = () => {
-    const authContext = useContext(AuthContext);
     const params = useParams();
     const id = params.id;
 
