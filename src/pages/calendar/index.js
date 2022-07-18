@@ -3,23 +3,19 @@ import "./styles.css";
 import buildCalendar from "./build";
 import dayStyles from "./Style";
 import Header from "./header"
-import SelectAll from "./LemonCheck";
 import { FaRegLemon } from 'react-icons/fa';
 import { FaLemon } from 'react-icons/fa';
 import { TbCheckbox } from "react-icons/tb";
 import moment from "moment";
-import { Checkbox, Select } from '@mui/material';
+import { Checkbox} from '@mui/material';
+import LemonCheck from "./LemonCheck";
+import axios from "axios";
 
 
 
 
 export default function Calendar({ value, onChange}) {
     const [calendar, setCalendar] = useState([]);
-
-    this.selectAll = new SelectAll({
-        info : this.data
-    })
-
 
     console.log(moment(value).format("YYYY-MM-DD"));
 
@@ -48,8 +44,29 @@ export default function Calendar({ value, onChange}) {
             </div>)} 
             <div><br/>
         <TbCheckbox size="30px"/> {moment(value).format("YYYY년 MM월 DD일 복용한 영양제 기록")} 
-        <SelectAll/>
+        {LemonCheck()}
         </div>
        </div>
     </div>)
 }
+
+
+axios({
+    method: 'get',
+    url: 'http://localhost:8080/pill?startedAt=2022-07-01&endedAt=2022-07-07',
+    responseType: 'json'
+  })
+    .then(function (response) {
+      console.log(response.data);
+    });
+
+axios({
+        method: 'get',
+        url: 'http://localhost:8080/pill/date/2022-07-12',
+        responseType: 'json'
+      })
+        .then(function (response) {
+          console.log(response.data);
+        });
+
+
