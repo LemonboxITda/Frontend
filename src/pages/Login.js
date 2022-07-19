@@ -18,7 +18,7 @@ const Login = () => {
         
         const post = async () => {
             try {
-                const res = await axios.post("http://localhost:8080/auth/signin",
+                const res = await axios.post(`${process.env.REACT_APP_BACK_BASE_URL}/auth/signin`,
                     userData, {
                         headers: {
                             'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import buildCalendar from "./build";
+import buildCalendar from "./Build";
 import dayStyles from "./Style";
 import Header from "./header"
 import { FaRegLemon } from 'react-icons/fa';
@@ -53,7 +53,7 @@ export default function Calendar({ value, onChange}) {
 
 axios({
     method: 'get',
-    url: 'http://localhost:8080/pill?startedAt=2022-07-01&endedAt=2022-07-07',
+    url: `${process.env.REACT_APP_BACK_BASE_URL}/pill?startedAt=2022-07-01&endedAt=2022-07-07`,
     responseType: 'json'
   })
     .then(function (response) {
@@ -62,7 +62,7 @@ axios({
 
 axios({
         method: 'get',
-        url: 'http://localhost:8080/pill/date/2022-07-12',
+        url: `${process.env.REACT_APP_BACK_BASE_URL}/pill/date/2022-07-12`,
         responseType: 'json'
       })
         .then(function (response) {
