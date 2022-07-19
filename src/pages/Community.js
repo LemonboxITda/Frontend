@@ -16,32 +16,30 @@ const Community = () => {
     const [page, setPage] = useState(1);
     const [keyword, setKeyword] = useState('');
 
-    const getPost = async (p) => {
-        await getApi(
-            {},
-            `/post?size=${size}&page=${p}&keyword=${keyword}`,
-            authContext.state.token,
-        )
-            .then(({ status, data }) => {
-                console.log('GET all post', status, data);
-                if (status === 200 && data.statusCodeValue === undefined) {
-                    setPosts(data.data);
-                    setTotal(data.totalCount);
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    }
-
     const handlePageChange = (page) => {
         setPage(page);
-        getPost(page-1);
     };
 
     useEffect(() => {
-        getPost(0);
-    }, [authContext.state.token])
+        const getPost = async () => {
+            await getApi(
+                {},
+                `/post?size=${size}&page=${page-1}&keyword=${keyword}`,
+                authContext.state.token,
+            )
+                .then(({ status, data }) => {
+                    // console.log('GET all post', status, data);
+                    if (status === 200 && data.statusCodeValue === undefined) {
+                        setPosts(data.data);
+                        setTotal(data.totalCount);
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+        getPost();
+    }, [authContext.state.token, page])
 
     const searchEvent = async () => {
         setPage(1);
