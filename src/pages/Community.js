@@ -11,18 +11,19 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const Community = () => {
     const authContext = useContext(AuthContext);
     const [posts, setPosts] = useState([]);
-    const [size, setSize] = useState(5);
+    const [size, setSize] = useState(3);
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
+    const [keyword, setKeyword] = useState('');
 
     const getPost = async (p) => {
         await getApi(
             {},
-            `/post?size=${size}&page=${p}`,
+            `/post?size=${size}&page=${p}&keyword=${keyword}`,
             authContext.state.token,
         )
             .then(({ status, data }) => {
-                console.log('GET post', status, data);
+                console.log('GET all post', status, data);
                 if (status === 200 && data.statusCodeValue === undefined) {
                     setPosts(data.data);
                     setTotal(data.totalCount);
@@ -42,6 +43,36 @@ const Community = () => {
         getPost(0);
     }, [authContext.state.token])
 
+    const searchEvent = async () => {
+        setPage(1);
+        await getApi(
+            {},
+            `/post?size=${size}&page=0&keyword=${keyword}`,
+            authContext.state.token,
+        )
+            .then(({ status, data }) => {
+                // console.log('GET search', status, data);
+                if (status === 200 && data.statusCodeValue === undefined) {
+                    setPosts(data.data);
+                    setTotal(data.totalCount);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    const onClickSearchBtn = (e) => {
+        e.preventDefault();
+        searchEvent();        
+    }
+
+    const onClickSearchEnter = (e) => {
+        if (e.key == 'Enter') {
+            searchEvent();
+        }
+    }
+
     return (
         <Wrapper>
             <div class="container">
@@ -49,10 +80,13 @@ const Community = () => {
                     <div class="row board-filter">
                         <div class="row col-10">
                             <div class="col-10 search-bar">
-                                <input type="search" class="form-control input-sm " placeholder="Search" />
+                                <input type="search" class="form-control input-sm " placeholder="제목, 내용으로 검색하기"
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                onKeyPress={(e) => onClickSearchEnter(e)} />
                             </div>
                             <div class="col-2 search-btn">
-                                <button class="btn btn-primary col-12"><i class="bi bi-search"></i></button>
+                                <button class="btn btn-primary col-12" onClick={(e) => onClickSearchBtn(e)}><i class="bi bi-search"></i></button>
                             </div>
                         </div>
                         <div class="col-2 post-btn">
@@ -64,7 +98,7 @@ const Community = () => {
 
                     <div class="inbox-message">
                         {
-                            posts ?
+                            posts && posts.length !== 0 ?
                                 (
                                     posts.map(post => (
                                         <ul>
