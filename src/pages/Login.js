@@ -26,11 +26,13 @@ const Login = () => {
                         }
                     }
                 )
+                console.log(res.data);
                 authContext.dispatch({
                     type: "login",
                     token: res.data.accessToken,
                     id: res.data.userInfo.id,
                     loginId: res.data.userInfo.loginId,
+                    role: res.data.userInfo.role,
                 });
                 localStorage.setItem(
                     "loggedInfo",
@@ -38,6 +40,7 @@ const Login = () => {
                         token: res.data.accessToken,
                         id: res.data.userInfo.id,
                         loginId: res.data.userInfo.loginId,
+                        role: res.data.userInfo.role,
                     })
                 );
             } catch (e) {
