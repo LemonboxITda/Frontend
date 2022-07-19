@@ -22,6 +22,8 @@ import {
 import {
   UsersList,
   CommuList,
+  UserInfo,
+  PostInfo,
 } from './pages/admin';
 import {
   Header,
@@ -103,6 +105,8 @@ function App() {
           <Route path="/mypage/community/:id" element={<MyPageComList />} />
           <Route path="/admin/users" element={<UsersList />} />
           <Route path="/admin/community" element={<CommuList />} />
+          <Route path="/admin/user/:id" element={<UserInfo />} />
+          <Route path="/admin/post/:id" element={<PostInfo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContext.Provider>
