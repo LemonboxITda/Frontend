@@ -16,7 +16,7 @@ const Home = () => {
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Services</h2>
-                    <h3 class="section-subheading text-muted">3 main services : Calendar | Community | Mypage</h3>
+                    <h3 class="section-subheading text-muted">3 main services : Calendar | Community | My Page</h3>
                 </div>
                 <div class="row text-center">
                     <div class="col-md-4">
@@ -25,7 +25,7 @@ const Home = () => {
                             <i class="fas fa-calendar-days fa-stack-1x fa-inverse"></i>
                         </span>
                         <h4 class="my-3">Calendar</h4>
-                        <p class="text-muted">레몬박스의 대표 영양제인 종합비타민, 프로바이오틱스, 루테인&오메가3 복용 기록과 재구매 시기 알람으로 끊기지 않는 습관 만들기</p>
+                        <p class="text-muted">레몬박스의 대표 영양제인 종합비타민, 프로바이오틱스, 루테인&amp;오메가3 복용 기록과 재구매 시기 알람으로 끊기지 않는 습관 만들기</p>
                     </div>
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x">
@@ -40,8 +40,8 @@ const Home = () => {
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
                             <i class="fas fa-user fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="my-3">Mypage</h4>
-                        <p class="text-muted">내가 복용하고 있는 영양제 관리 및 커뮤니티 글, 댓글, 좋아요 기록 관리하기</p>
+                        <h4 class="my-3">My Page</h4>
+                        <p class="text-muted">내가 복용하고 있는 영양제 관리 및 기본 정보 관리하기</p>
                     </div>
                 </div>
             </div>

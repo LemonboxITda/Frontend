@@ -7,30 +7,30 @@ const Header = () => {
 
     return (
         <div>
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="sm">
                 <Container>
-                    <Navbar.Brand href="/">Home</Navbar.Brand>
+                    <Navbar.Brand href="/"><i class="bi bi-house"></i></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/calendar">Calendar</Nav.Link>
-                            <Nav.Link href="/community">Community</Nav.Link>
+                            <Nav.Link href="/calendar">캘린더</Nav.Link>
+                            <Nav.Link href="/community">커뮤니티</Nav.Link>
                             {
                                 authContext.state.token === null ? 
                                 (
                                     <NavDropdown title="Login" id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                                        <NavDropdown.Item href="/signup">Sign Up</NavDropdown.Item>
+                                        <NavDropdown.Item href="/login">로그인</NavDropdown.Item>
+                                        <NavDropdown.Item href="/signup">회원가입</NavDropdown.Item>
                                     </NavDropdown>
                                 ) : (
-                                    <NavDropdown title="My Page" id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/mypage">My Page</NavDropdown.Item>
+                                    <NavDropdown title="마이페이지" id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/mypage">마이페이지</NavDropdown.Item>
                                         <NavDropdown.Divider />
-                                        <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                                        <NavDropdown.Item href="/logout">로그아웃</NavDropdown.Item>
                                     </NavDropdown>
                                 )
                             }
-                            <Nav.Link href="/">Lemonbox</Nav.Link>
+                            <Nav.Link href="https://lifevitamin.kr/" target='_blank' rel='noreferrer'>인생몰 바로가기</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
