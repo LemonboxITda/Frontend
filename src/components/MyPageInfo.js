@@ -11,6 +11,24 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    .info-title {
+        font-size: 20px;
+    }
+
+    .info-title-nickname {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    @media (max-width: 576px) {
+        .info-title {
+            font-size: 14px;
+        }
+        .info-title-nickname {
+            font-size: 20px;
+        }
+    }
 `
 
 const MyPageInfo = () => {
@@ -28,8 +46,6 @@ const MyPageInfo = () => {
     };
 
     useEffect(() => {
-        // [이슈] 페이지 첫 진입 시 authContext 값들이 null인 문제
-        // console.log('authContext.state.token', authContext.state.token)
         const getInfo = async () => {
             await getApi(
                 {},
@@ -37,7 +53,7 @@ const MyPageInfo = () => {
                 authContext.state.token,
             )
                 .then(({ status, data }) => {
-                    console.log('GET Info:', status, data);
+                    // console.log('GET Info:', status, data);
                     if (status === 200 && data.statusCodeValue === undefined) {
                         setNickname(data.nickname);
                     }
@@ -53,11 +69,10 @@ const MyPageInfo = () => {
         <>
         <Wrapper>
             <div>
-                안녕하세요<br />
-                <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{nickname}</span>님!
+                <span class="info-title">안녕하세요<br /></span>
+                <span class="info-title-nickname">{nickname}</span>님!
             </div>
             <div style={{ fontSize: '14px', color: Colors.gray1, cursor: 'pointer' }} onClick={openModal}>정보수정</div>
-            {/* <button class="btn btn-outline-secondary btn-sm mb-4 modify-btn" onClick={openModal}>정보수정</button> */}
             
         </Wrapper>
         <ModalInfo open={modalOpen} close={closeModal} header={"정보수정"} nickname={nickname} />

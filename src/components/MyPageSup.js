@@ -168,18 +168,23 @@ const MyPageSup = () => {
 
     const Supplement = ({ name, count }) => {
         let kor_name = '';
+        let link_idx;
         switch (name) {
             case 'vitamin':
-                kor_name = '종합비타민'
+                kor_name = '종합비타민';
+                link_idx = 156;
                 break
             case 'probio':
-                kor_name = '프로바이오틱스'
+                kor_name = '프로바이오틱스';
+                link_idx = 159;
                 break
             case 'omega':
-                kor_name = '루테인 & 오메가3'
+                kor_name = '루테인 & 오메가3';
+                link_idx = 164;
                 break
             default:
                 kor_name = '종합비타민'
+                link_idx = 156;
         }
         return (
             <div class="supplement">
@@ -192,7 +197,7 @@ const MyPageSup = () => {
                 }
                 {
                     count === 0 ? (
-                        <span><a href="">영양제 주문하러 가기&gt;&gt;</a></span>
+                        <span><a href={`https://lifevitamin.kr/22/?idx=${link_idx}`} target='_blank' rel='noreferrer'>영양제 주문하러 가기&gt;&gt;</a></span>
                     ) : (
                         count > 0 && count <= 10 ? (
                             <span><span style={{fontWeight: '600'}}>[{count}알 / 30알]</span> 거의 다 먹었군요! <a href="">새로 주문하러 가기&gt;&gt;</a></span>
@@ -204,6 +209,9 @@ const MyPageSup = () => {
             </div>
         )
     }
+    // https://lifevitamin.kr/22/?idx=156 종합비타민
+    // https://lifevitamin.kr/22/?idx=159 프로바이오
+    // https://lifevitamin.kr/22/?idx=164 오메가
 
     return (
         <Wrapper>
