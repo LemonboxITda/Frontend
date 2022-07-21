@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import buildCalendar from "./Build";
+import buildCalendar from "./build";
 import dayStyles from "./Style";
 import Header from "./header"
 import { FaRegLemon } from 'react-icons/fa';
