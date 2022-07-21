@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import { putApi } from '../api';
 import { AuthContext } from "../App";
+import axios from "axios";
 
 const Wrapper = styled.div`
     .modal {
@@ -99,11 +100,12 @@ const Wrapper = styled.div`
 const ModalInfo = ({ open, close, header, nickname }) => {
     const authContext = useContext(AuthContext);
     const [name, setName] = useState(nickname);
+    const [idCheck, setIdCheck] = useState(false);
 
-    const save = async () => {
+    const changeNickname = async (nickname) => {
         await putApi(
             {
-                nickname: name,
+                nickname: nickname,
             },
             '/user',
             authContext.state.token
@@ -114,10 +116,35 @@ const ModalInfo = ({ open, close, header, nickname }) => {
         })
         .catch((e) => {
             console.log(e);
-            if (e.response.status === 404) {
-                alert('해당 ID의 영양제를 찾을 수 없습니다.');
-            }
         });
+    }
+
+    const save = async () => {
+        console.log('입력한 닉네임', name);
+        await axios.get(
+            `${process.env.REACT_APP_BACK_BASE_URL}/auth/check/nickname?nickname=${name}`,
+            {
+                headers: {
+                    "Content-type": "application/json",
+                    Accept: "application/json",
+                },
+            },
+        )
+            .then(({ status, data }) => {
+                console.log(status, data);
+                if (status === 200) {
+                    setIdCheck(true);
+                    changeNickname(name);
+                } 
+            })
+            .catch((e) => {
+                console.log(e);
+                if (e.response.status === 409) {
+                    alert('이미 존재하는 닉네임입니다.');
+                } else if (e.response.status === 400 || e.response.status === 401) {
+                    alert('닉네임 형식이 올바르지 않습니다. 2-12자 길이의 한글, 영문, 숫자만 가능합니다.');
+                }
+            });
     }
 
     return (

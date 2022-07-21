@@ -42,7 +42,7 @@ const Signup = () => {
         } else {
             // postAPI 회원가입 
             await axios.post(
-                "http://localhost:8080/auth/signup",
+                `${process.env.REACT_APP_BACK_BASE_URL}/auth/signup`,
                 userData,
                 config
             )
@@ -63,7 +63,7 @@ const Signup = () => {
         if (c === 'id') {
             // id 중복체크 getAPI
             await axios.get(
-                `http://localhost:8080/auth/check/id?loginId=${userData.loginId}`,
+                `${process.env.REACT_APP_BACK_BASE_URL}/auth/check/id?loginId=${userData.loginId}`,
                 config
             )
                 .then(({ status, data }) => {
@@ -79,7 +79,7 @@ const Signup = () => {
         } else {
             // nickname 중복체크 getAPI
             await axios.get(
-                `http://localhost:8080/auth/check/nickname?nickname=${userData.nickname}`,
+                `${process.env.REACT_APP_BACK_BASE_URL}/auth/check/nickname?nickname=${userData.nickname}`,
                 config
             )
                 .then(({ status, data }) => {
@@ -98,15 +98,15 @@ const Signup = () => {
     useEffect(() => {
         if (idCheck === 200) {
             setIdCheckMsg('사용가능한 ID입니다.');
-        } else if (idCheck === 401) {
-            setIdCheckMsg('ID 형식이 올바르지 않습니다.');
+        } else if (idCheck === 400 || idCheck === 401) {
+            setIdCheckMsg('ID 형식이 올바르지 않습니다. 2-12자 길이의 한글, 영문, 숫자만 가능합니다.');
         } else if (idCheck === 409) {
             setIdCheckMsg('이미 사용중인 ID입니다. 다른 ID을 입력해주세요.');
         }
         if (nameCheck === 200) {
             setNameCheckMsg('사용가능한 닉네임입니다.');
-        } else if (nameCheck === 401) {
-            setNameCheckMsg('닉네임 형식이 올바르지 않습니다.');
+        } else if (nameCheck === 400 || nameCheck === 401) {
+            setNameCheckMsg('닉네임 형식이 올바르지 않습니다. 2-12자 길이의 영문, 숫자만 가능합니다.');
         } else if (nameCheck === 409) {
             setNameCheckMsg('이미 사용중인 닉네임입니다. 다른 닉네임을 입력해주세요.');
         }

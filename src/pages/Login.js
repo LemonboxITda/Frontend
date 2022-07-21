@@ -18,7 +18,7 @@ const Login = () => {
         
         const post = async () => {
             try {
-                const res = await axios.post("http://localhost:8080/auth/signin",
+                const res = await axios.post(`${process.env.REACT_APP_BACK_BASE_URL}/auth/signin`,
                     userData, {
                         headers: {
                             'Content-Type': 'application/json',
@@ -26,11 +26,13 @@ const Login = () => {
                         }
                     }
                 )
+                console.log(res.data);
                 authContext.dispatch({
                     type: "login",
                     token: res.data.accessToken,
                     id: res.data.userInfo.id,
                     loginId: res.data.userInfo.loginId,
+                    role: res.data.userInfo.role,
                 });
                 localStorage.setItem(
                     "loggedInfo",
@@ -38,6 +40,7 @@ const Login = () => {
                         token: res.data.accessToken,
                         id: res.data.userInfo.id,
                         loginId: res.data.userInfo.loginId,
+                        role: res.data.userInfo.role,
                     })
                 );
             } catch (e) {
@@ -54,7 +57,11 @@ const Login = () => {
 
     useEffect(() => {
         if (authContext.state.token !== null) {
-            navigate("/"); // 로그인 성공 시 흠으로 이동
+            if (authContext.state.role === 'ROLE_ADMIN') {
+                navigate("/admin/users");
+            } else {
+                navigate("/"); // 로그인 성공 시 흠으로 이동
+            }
         }
     }, [authContext.state.token])
 

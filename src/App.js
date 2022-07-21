@@ -20,6 +20,12 @@ import {
   NotFound,
 } from './pages';
 import {
+  UsersList,
+  CommuList,
+  UserInfo,
+  PostInfo,
+} from './pages/admin';
+import {
   Header,
 } from './components';
 
@@ -32,12 +38,14 @@ const reducer = (state, action) => {
         token: action.token,
         id: action.id,
         loginId: action.loginId,
+        role: action.role,
       };
     case "logout":
       return {
         token: null,
         id: null,
         loginId: null,
+        role: null,
       };
     default:
       return state;
@@ -49,6 +57,7 @@ function App() {
     token: null,
     id: null,
     loginId: null,
+    role: null,
   });
 
   useEffect(() => {
@@ -62,12 +71,13 @@ function App() {
       console.log(loggedInfo);
 
       if (loggedInfo) {
-        const { token, id, loginId } = loggedInfo;
+        const { token, id, loginId, role } = loggedInfo;
         await dispatch({
           type: "login",
           token: token,
           id: id,  // 유저 고유 id
           loginId: loginId,  // 유저 아이디
+          role: role, // 관리자일 경우 'ROLE_ADMIN'
         });
       } else {
         await dispatch({
@@ -93,6 +103,10 @@ function App() {
           <Route path="/write/:type/:id" element={<Post />} />
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/mypage/community/:id" element={<MyPageComList />} />
+          <Route path="/admin/users" element={<UsersList />} />
+          <Route path="/admin/community" element={<CommuList />} />
+          <Route path="/admin/user/:id" element={<UserInfo />} />
+          <Route path="/admin/post/:id" element={<PostInfo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContext.Provider>
