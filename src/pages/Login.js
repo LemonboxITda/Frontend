@@ -57,7 +57,11 @@ const Login = () => {
 
     useEffect(() => {
         if (authContext.state.token !== null) {
-            navigate("/"); // 로그인 성공 시 흠으로 이동
+            if (authContext.state.role === 'ROLE_ADMIN') {
+                navigate("/admin/users");
+            } else {
+                navigate("/"); // 로그인 성공 시 흠으로 이동
+            }
         }
     }, [authContext.state.token])
 
