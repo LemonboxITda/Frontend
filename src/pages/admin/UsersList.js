@@ -68,10 +68,10 @@ const UsersList = () => {
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col" >ID</th>
-                            <th scope="col">닉네임</th>
-                            <th scope="col">상세보기</th>
+                            <th scope="col" class="col-1">#</th>
+                            <th scope="col" class="col-3">ID</th>
+                            <th scope="col" class="col-5">닉네임</th>
+                            <th scope="col" class="col-3">상세보기</th>
                         </tr>
                     </thead>
                     <tbody>

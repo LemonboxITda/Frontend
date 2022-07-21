@@ -59,12 +59,12 @@ const CommuList = () => {
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">작성자</th>
-                            <th scope="col">글 제목</th>
-                            <th scope="col">작성 날짜 및 시간</th>
-                            <th scope="col">좋아요 수</th>
-                            <th scope="col">조회수</th>
-                            <th scope="col">상세보기</th>
+                            <th scope="col" class="col-2">작성자</th>
+                            <th scope="col" class="col-3">글 제목</th>
+                            <th scope="col" class="col-3">작성 날짜 및 시간</th>
+                            <th scope="col" class="col-1">좋아요</th>
+                            <th scope="col" class="col-1">조회수</th>
+                            <th scope="col" class="col-2">상세보기</th>
                         </tr>
                     </thead>
                     <tbody>
