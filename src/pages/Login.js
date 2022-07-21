@@ -11,6 +11,7 @@ const Login = () => {
     const [userData, setUserData] = useState({
         loginId: "",
         password: "",
+        role: "ROLE_USER", // admin -> ROLE_ADMIN
     });
 
     const submitHandler = async (e) => {
