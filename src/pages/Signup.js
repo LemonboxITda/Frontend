@@ -18,6 +18,7 @@ const Signup = () => {
         loginId: "",
         password: "",
         nickname: "",
+        role: "ROLE_USER", // admin -> ROLE_ADMIN
     });
     const [confirmPW, setConfirmPW] = useState("");
     const [idCheck, setIdCheck] = useState(null);
