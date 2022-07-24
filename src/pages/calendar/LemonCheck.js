@@ -112,9 +112,10 @@ const LemonCheck = ({ date }) => {
                         checkedIcon={<FaLemon color={supInfo[name].color} size="20px" />} />
                     <span>{supInfo[name].korname}</span>
                     <br />
-                </div>
-            }
+                </div>    
+                }
             </>
+        
         )
     }
 

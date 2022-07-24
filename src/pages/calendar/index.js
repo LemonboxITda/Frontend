@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import buildCalendar from "./Build";
+import buildCalendar from "./build";
 import dayStyles from "./Style";
 import Header from "./header"
 import { FaRegLemon, FaLemon } from 'react-icons/fa';
@@ -10,6 +10,7 @@ import { Checkbox } from '@mui/material';
 import LemonCheck from "./LemonCheck";
 import { AuthContext } from "../../App";
 import { getApi } from '../../api';
+import Alert from 'react-bootstrap/Alert'
 
 
 export default function Calendar({ value, onChange }) {
@@ -58,6 +59,14 @@ export default function Calendar({ value, onChange }) {
     }
   }
 
+  const modalCal = (selectDay) => {      
+    if(selectDay.isChecked >= 25) {
+      <Alert>
+      영양제가 얼마 남지 않았어요!
+      <Alert.Link href="https://lifevitamin.kr/22"> 재구매하러가기 </Alert.Link>
+    </Alert>}
+  }
+
   return (
     <Wrapper>
       <div className="calendar">
@@ -80,9 +89,9 @@ export default function Calendar({ value, onChange }) {
             }
           </div>)}
           <div><br />
-            <TbCheckbox size="30px" /> {moment(value).format("YYYY년 MM월 DD일 복용한 영양제 기록")}
+          <p><TbCheckbox size="30px"/>{selectDay} 오늘 복용한 영양제 기록</p>
             <LemonCheck date={selectDay} />
-          </div>
+          </div> 
         </div>
       </div>
     </Wrapper>
