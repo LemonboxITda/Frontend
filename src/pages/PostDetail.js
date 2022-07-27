@@ -1,9 +1,10 @@
 import React, { createContext, useReducer } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { OnePostDetail, Comments, WriteComment } from "../components";
 export const MyCommentContext = createContext();
 
 const PostDetail = () => {
+    const navigate = useNavigate();
     const params = useParams();
     const id = params.id;
 
@@ -32,6 +33,8 @@ const PostDetail = () => {
                 <OnePostDetail id={id} />
                 <Comments id={id} />
                 <WriteComment id={id} />
+                <button type="button" class="btn btn-secondary" style={{ marginTop: '10px', fontSize: '14px' }}
+                    onClick={() => navigate(-1)}>목록보기</button>
             </MyCommentContext.Provider>
         </div>
     )

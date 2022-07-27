@@ -40,7 +40,7 @@ const WriteComment = ({ id }) => {
                 authContext.state.token,
             )
                 .then(({ status, data }) => {
-                    console.log('POST comment', status, data);
+                    // console.log('POST comment', status, data);
                     if (status === 200) {
                         myCommentContext.dispatch({
                             type: 'postMyComment',

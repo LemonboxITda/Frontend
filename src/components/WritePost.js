@@ -34,10 +34,9 @@ const WritePost = ({ type }) => {
                 authContext.state.token,
             )
                 .then(({ status, data }) => {
-                    console.log('GET post detail', status, data);
+                    // console.log('GET post detail', status, data);
                     if (status === 200 && data.statusCodeValue === undefined) {
                         setContents({...contents, title: data.title, content: data.content});
-                        // setContents({...contents, content: data.content});
                     }
                 })
                 .catch((e) => {
@@ -63,7 +62,7 @@ const WritePost = ({ type }) => {
                     .then(({ status, data }) => {
                         // console.log('status:', status);
                         if (status === 200) {
-                            navigate("/community");
+                            navigate("/community/page=1");
                         }
                     })
                     .catch((e) => {
@@ -78,7 +77,7 @@ const WritePost = ({ type }) => {
                     .then(({ status, data }) => {
                         // console.log('status:', status);
                         if (status === 200) {
-                            navigate("/community");
+                            navigate("/community/page=1");
                         }
                     })
                     .catch((e) => {
