@@ -29,8 +29,7 @@ const Header = () => {
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
-                                    <Nav.Link href="/calendar">캘린더</Nav.Link>
-                                    <Nav.Link href="/community">커뮤니티</Nav.Link>
+                                    
                                     {
                                         authContext.state.token === null ?
                                             (
@@ -39,11 +38,15 @@ const Header = () => {
                                                     <NavDropdown.Item href="/signup">회원가입</NavDropdown.Item>
                                                 </NavDropdown>
                                             ) : (
+                                                <>
+                                                <Nav.Link href="/calendar">캘린더</Nav.Link>
+                                                <Nav.Link href="/community/page=1">커뮤니티</Nav.Link>
                                                 <NavDropdown title="마이페이지" id="basic-nav-dropdown">
                                                     <NavDropdown.Item href="/mypage">마이페이지</NavDropdown.Item>
                                                     <NavDropdown.Divider />
                                                     <NavDropdown.Item href="/logout">로그아웃</NavDropdown.Item>
                                                 </NavDropdown>
+                                                </>
                                             )
                                     }
                                     <Nav.Link href="https://lifevitamin.kr/" target='_blank' rel='noreferrer'>인생몰 바로가기</Nav.Link>
