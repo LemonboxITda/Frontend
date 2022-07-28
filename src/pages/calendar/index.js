@@ -11,10 +11,12 @@ import LemonCheck from "./LemonCheck";
 import { AuthContext } from "../../App";
 import { getApi } from '../../api';
 import Alert from 'react-bootstrap/Alert'
-
+import { CalendarContext } from "../Calendar";
+import { ModalCalendar } from "../../components";
 
 export default function Calendar({ value, onChange }) {
   const authContext = useContext(AuthContext);
+  const calendarContext = useContext(CalendarContext);
   const [calendar, setCalendar] = useState([]);
   const [selectDay, setSelectDay] = useState(moment().format("YYYY-MM-DD"));
   const [resultList, setResultList] = useState([]);
@@ -29,7 +31,7 @@ export default function Calendar({ value, onChange }) {
         authContext.state.token
       )
         .then(({ status, data }) => {
-          console.log('GET all day pill', status, data);
+          // console.log('GET all day pill', status, data);
           if (status === 200 && data.statusCodeValue === undefined) {
             setResultList(data);
           }
@@ -48,6 +50,10 @@ export default function Calendar({ value, onChange }) {
   const onClickDay = (day) => {
     onChange(day);
     setSelectDay(day.format("YYYY-MM-DD"));
+    calendarContext.dispatch({
+      type: "none",
+      check: false,
+  })
   }
 
   function checkAllDay(day) {  // 칠해질 날인지 아닌지 t/f 반환
@@ -59,12 +65,64 @@ export default function Calendar({ value, onChange }) {
     }
   }
 
-  const modalCal = (selectDay) => {      
-    if(selectDay.isChecked >= 25) {
-      <Alert>
-      영양제가 얼마 남지 않았어요!
-      <Alert.Link href="https://lifevitamin.kr/22"> 재구매하러가기 </Alert.Link>
-    </Alert>}
+  // 모달 창
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+      setModalOpen(true);
+  };
+  const closeModal = () => {
+      setModalOpen(false);
+  };
+
+  useEffect(() => {
+    const modalCal = async () => {
+      await getApi(
+        {},
+        `/supplement`,
+        authContext.state.token
+      )
+        .then(({ status, data }) => {
+          (data && 
+            data.map(d => 
+            d.count > 10 && openModal()
+          )) 
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    modalCal();
+  }, [authContext.state.token]);
+
+
+  // useEffect(() => {  // 특정 날짜의 영양제를 모두 복용했을 경우 다시 draw하여 바로 check 반영하기
+  //   console.log('here', calendarContext.state.check)
+  //   DrawCalendar();
+  // }, [calendarContext.state.check])
+
+  const DrawCalendar = () => {
+    return (
+      <>
+        <div className="day-names">
+          {
+            ["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (<div key={i} className="week">{d}</div>))}
+        </div>
+        {calendar.map((week, idx) =>
+          <div key={idx}>
+            {week.map((day, i) => (
+              <div key={i} className="day" onClick={() => onClickDay(day)}>
+                <div>
+                  <Checkbox
+                    checked={checkAllDay(day)}
+                    icon={<FaRegLemon size="20px" />} checkedIcon={<FaLemon color="#D3D3D3" size="20px" />} /><br />
+                  {day.format("D").toString()}
+                </div>
+              </div>))
+            }
+          </div>)}
+      </>
+    )
   }
 
   return (
@@ -72,28 +130,18 @@ export default function Calendar({ value, onChange }) {
       <div className="calendar">
         <Header value={value} setValue={onChange} />
         <div className="body">
-          <div className="day-names">
-            {
-              ["S", "M", "T", "W", "T", "F", "S"].map((d) => (<div className="week">{d}</div>))}
-          </div>
-
-          {calendar.map(week => <div>
-            {week.map(day => (<div className="day" onClick={() => onClickDay(day)}>
-              <div>
-                <Checkbox 
-                  checked={checkAllDay(day)}
-                  icon={<FaRegLemon size="20px" />} checkedIcon={<FaLemon color="#D3D3D3" size="20px" />} /><br />
-                {day.format("D").toString()}
-              </div>
-            </div>))
-            }
-          </div>)}
+          <DrawCalendar />
           <div><br />
-          <p><TbCheckbox size="30px"/>{selectDay} 오늘 복용한 영양제 기록</p>
+            <p>
+              <TbCheckbox size="30px" />
+              <span style={{ fontWeight: '600' }}>{selectDay}&nbsp;</span> 
+              복용한 영양제 기록
+            </p>
             <LemonCheck date={selectDay} />
-          </div> 
+          </div>
         </div>
       </div>
+      <ModalCalendar open={modalOpen} close={closeModal} header={"영양제 재구매 알림"} />
     </Wrapper>
   )
 }
@@ -125,6 +173,15 @@ const Wrapper = styled.div`
     box-sizing: border-box;
     z-index: 1;
     text-align: center;
+  }
+
+  @media (max-width: 576px) {
+    .calendar .day{
+      width: calc(100% /8);
+    }
+    .calendar .week {
+      width: calc(100% /8);
+    }
   }
 
   .lemonButton {
