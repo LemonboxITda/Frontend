@@ -19,11 +19,12 @@ export default function CalendarHeader({value, setValue}) {
     }
 
     return (
-        <div className="header">
-            <div className="previous" onClick={() => setValue(prevMonth())}>
+        <div className="header" class="d-flex justify-content-between" 
+            style={{ width: '200px', margin: '20px auto', fontWeight: '600' }}>
+            <div className="previous" style={{ cursor: 'pointer' }} onClick={() => setValue(prevMonth())}>
                 {String.fromCharCode(171)}</div>
             <div className="current">{currMonthName()} {currYear()}</div>
-            <div className="next" onClick={() => setValue(nextMonth())}>
+            <div className="next" style={{ cursor: 'pointer' }} onClick={() => setValue(nextMonth())}>
                 {String.fromCharCode(187)}</div>
         </div>
 

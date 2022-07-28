@@ -73,7 +73,7 @@ const Wrapper = styled.div`
         }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 576px) {
         .upper-section .left-side .date,
         .upper-section .right-side {
             font-size: 10px;
@@ -100,7 +100,7 @@ const OnePostDetail = ({ id }) => {
                 authContext.state.token,
             )
                 .then(({ status, data }) => {
-                    console.log('GET post detail', status, data);
+                    // console.log('GET post detail', status, data);
                     if (status === 200 && data.statusCodeValue === undefined) {
                         setPostData(data);
                     }
@@ -120,10 +120,10 @@ const OnePostDetail = ({ id }) => {
                 authContext.state.token,
             )
                 .then(({ status, data }) => {
-                    console.log('DEL post', status, data);
+                    // console.log('DEL post', status, data);
                     if (status === 200 && data.statusCodeValue === undefined) {
                         alert('삭제되었습니다.');
-                        navigate('/community');
+                        navigate('/community/page=1');
                     }
                 })
                 .catch((e) => {
@@ -143,7 +143,7 @@ const OnePostDetail = ({ id }) => {
             authContext.state.token,
         )
             .then(({ status, data }) => {
-                console.log('DEL heart', status, data);
+                // console.log('DEL heart', status, data);
                 if (status === 200 && data.statusCodeValue === undefined) {
                     setHeartChange(!heartChange);
                 }
@@ -161,7 +161,7 @@ const OnePostDetail = ({ id }) => {
             authContext.state.token,
         )
         .then(({ status, data }) => {
-            console.log('POST heart', status, data);
+            // console.log('POST heart', status, data);
             if (status === 200 && data.statusCodeValue === undefined) {
                 setHeartChange(!heartChange);
             }

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import { OnePost } from "../components";
 import Pagination from "react-js-pagination";
@@ -10,39 +10,53 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Community = () => {
     const authContext = useContext(AuthContext);
+    const params = useParams();
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
-    const [size, setSize] = useState(3);
-    const [total, setTotal] = useState(0);
-    const [page, setPage] = useState(1);
     const [keyword, setKeyword] = useState('');
 
-    const handlePageChange = (page) => {
-        setPage(page);
-    };
+    const size = 3;
+    const [total, setTotal] = useState(0);
+
+    useEffect(() => {
+        if (!!params.keyword) {
+            setKeyword(params.keyword);
+        } else {
+            setKeyword('');
+        }
+    }, [params.keyword])
 
     useEffect(() => {
         const getPost = async () => {
+            let key = ''
+            if (!!params.keyword) {
+                key = params.keyword;
+            }
             await getApi(
                 {},
-                `/post?size=${size}&page=${page-1}&keyword=${keyword}`,
+                `/post?size=${size}&page=${params.page - 1}&keyword=${key}`,
                 authContext.state.token,
-            )
-                .then(({ status, data }) => {
-                    // console.log('GET all post', status, data);
-                    if (status === 200 && data.statusCodeValue === undefined) {
-                        setPosts(data.data);
-                        setTotal(data.totalCount);
-                    }
-                })
+            ).then(({ status, data }) => {
+                // console.log('GET all post', status, data);
+                if (status === 200 && data.statusCodeValue === undefined) {
+                    setPosts(data.data);
+                    setTotal(data.totalCount);
+                }
+            })
                 .catch((e) => {
                     console.log(e);
                 });
         }
         getPost();
-    }, [authContext.state.token, page])
+    }, [authContext.state.token, params.page])
+
 
     const searchEvent = async () => {
-        setPage(1);
+        if (!!keyword) {
+            navigate(`/community/page=1/keyword=${keyword}`);
+        } else {
+            navigate(`/community/page=1`);
+        }
         await getApi(
             {},
             `/post?size=${size}&page=0&keyword=${keyword}`,
@@ -62,7 +76,7 @@ const Community = () => {
 
     const onClickSearchBtn = (e) => {
         e.preventDefault();
-        searchEvent();        
+        searchEvent();
     }
 
     const onClickSearchEnter = (e) => {
@@ -70,6 +84,10 @@ const Community = () => {
             searchEvent();
         }
     }
+
+    const handlePageChange = (page) => {
+        navigate(`/community/page=${page}`);
+    };
 
     return (
         <Wrapper>
@@ -79,9 +97,9 @@ const Community = () => {
                         <div class="row col-10">
                             <div class="col-10 search-bar">
                                 <input type="search" class="form-control input-sm " placeholder="제목, 내용으로 검색하기"
-                                value={keyword}
-                                onChange={(e) => setKeyword(e.target.value)}
-                                onKeyPress={(e) => onClickSearchEnter(e)} />
+                                    value={keyword}
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    onKeyPress={(e) => onClickSearchEnter(e)} />
                             </div>
                             <div class="col-2 search-btn">
                                 <button class="btn btn-primary col-12" onClick={(e) => onClickSearchBtn(e)}><i class="bi bi-search"></i></button>
@@ -99,27 +117,29 @@ const Community = () => {
                             posts && posts.length !== 0 ?
                                 (
                                     posts.map(post => (
-                                        <ul>
-                                            <OnePost key={post.id} post={post} />
+                                        <ul key={post.id}>
+                                            <OnePost post={post} />
                                         </ul>
                                     ))
                                 ) : (
                                     <div>
-                                        아직 글이 없어요.
+                                        글이 없어요.
                                     </div>
                                 )
                         }
                     </div>
                     <PageWrapper>
-                    <Pagination
-                        activePage={page}
-                        itemsCountPerPage={size}
-                        totalItemsCount={total}
-                        pageRangeDisplayed={size}
-                        prevPageText={"‹"}
-                        nextPageText={"›"}
-                        onChange={handlePageChange}
-                    />
+                        <Pagination
+                            activePage={params.page * 1}
+                            currentPage={params.page * 1}
+                            itemsCountPerPage={size}
+                            totalItemsCount={total}
+                            pageRangeDisplayed={size}
+                            prevPageText={"‹"}
+                            nextPageText={"›"}
+                            onChange={handlePageChange}
+                            renderOnZeroPageCount={null}
+                        />
                     </PageWrapper>
                 </div>
             </div>

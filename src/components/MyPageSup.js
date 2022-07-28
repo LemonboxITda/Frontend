@@ -92,12 +92,12 @@ const initialSupData = {
         "id": null,
         "name": "vitamin",
         "count": 0,
-    }, 
+    },
     'probio': {
         "id": null,
         "name": "probio",
         "count": 0,
-    }, 
+    },
     'omega': {
         "id": null,
         "name": "omega",
@@ -124,19 +124,19 @@ const MyPageSup = () => {
     const getSupplement = async () => { // 영양제 정보 GET 
         await getApi({}, '/supplement', authContext.state.token)
             .then(({ status, data }) => {
-                
+
                 if (status === 200 && data.statusCodeValue === undefined) {
                     // console.log('GET:', status, data.statusCodeValue, data);
                     setSupRawData(data);  // 얘를 지우면 첫번재 렌더링 시 제대로 안되는 이유? supRawData 이용하는 부분이 없는데..
-                    data && 
-                    data !== [] &&
-                    data.map((sup, i) => (
-                        supData[sup.name] = {
-                            id: sup.id,
-                            name: sup.name,
-                            count: sup.count,
-                        }
-                    ));
+                    data &&
+                        data !== [] &&
+                        data.map((sup, i) => (
+                            supData[sup.name] = {
+                                id: sup.id,
+                                name: sup.name,
+                                count: sup.count,
+                            }
+                        ));
                 }
             })
             .catch((e) => {
@@ -200,9 +200,13 @@ const MyPageSup = () => {
                         <span><a href={`https://lifevitamin.kr/22/?idx=${link_idx}`} target='_blank' rel='noreferrer'>영양제 주문하러 가기&gt;&gt;</a></span>
                     ) : (
                         count > 0 && count <= 10 ? (
-                            <span><span style={{fontWeight: '600'}}>[{count}알 / 30알]</span> 거의 다 먹었군요! <a href="">새로 주문하러 가기&gt;&gt;</a></span>
+                            <span>
+                                <span style={{ fontWeight: '600' }}>[{count}알 / 30알]</span>
+                                거의 다 먹었군요!
+                                <a href={`https://lifevitamin.kr/22/?idx=${link_idx}`}>새로 주문하러 가기&gt;&gt;</a>
+                            </span>
                         ) : (
-                            <span><span style={{fontWeight: '600'}}>[{count}알 / 30알]</span> 오늘도 화이팅!</span>
+                            <span><span style={{ fontWeight: '600' }}>[{count}알 / 30알]</span> 오늘도 화이팅!</span>
                         )
                     )
                 }

@@ -4,6 +4,8 @@ import { FaRegLemon, FaLemon } from 'react-icons/fa';
 import { Colors } from '../../styles/ui';
 import { getApi, postApi } from '../../api';
 import { AuthContext } from "../../App";
+import { CalendarContext } from "../Calendar";
+import { Link } from "react-router-dom";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -42,8 +44,11 @@ const initialSupInfo = {
 
 const LemonCheck = ({ date }) => {
     const authContext = useContext(AuthContext);
+    const calendarContext = useContext(CalendarContext);
     const [supData, setSupData] = useState(initialSupData);
     const [supInfo, setSupInfo] = useState(initialSupInfo);
+    const [checkNone, setCheckNone] = useState(0);
+    let supList = ['vitamin', 'probio', 'omega'];
 
     useEffect(() => {
         const getOneDayPill = async () => {
@@ -62,10 +67,11 @@ const LemonCheck = ({ date }) => {
                                 supplementId: sup.supplementId,
                                 date: sup.date,
                                 status: sup.status,
-                            }
+                            },
+                            setCheckNone(checkNone => checkNone + sup.supplementId)
                         ));
-                        // console.log(supData);
                     }
+                    // console.log(checkNone);
                 })
                 .catch((e) => {
                     console.log(e);
@@ -74,14 +80,43 @@ const LemonCheck = ({ date }) => {
         getOneDayPill();
     }, [authContext.state.token, date]);
 
-    const onClickOneSup = async ( name ) => {
+    // // Checkbox 이슈로 주석 처리
+    // const getThisDayTF = async () => {
+    //     await getApi(
+    //         {},
+    //         `/pill?startedAt=${date}&endedAt=${date}`,
+    //         authContext.state.token
+    //       )
+    //         .then(({ status, data }) => {
+    //           console.log('GET this day pill t/f', status, data);
+    //           if (status === 200 && data.statusCodeValue === undefined) {
+    //             if (data[0].isChecked) {
+    //                 calendarContext.dispatch({
+    //                     type: "checkAll1day",
+    //                     check: true,
+    //                 })
+    //             } else {
+    //                 calendarContext.dispatch({
+    //                     type: "none",
+    //                     check: false,
+    //                 })
+    //             }
+    //           }
+    //           console.log('check', calendarContext.state.check);
+    //         })
+    //         .catch((e) => {
+    //           console.log(e);
+    //         });
+    // }
+
+    const onClickOneSup = async ( name, checked ) => {
         let postStatus;
-        if (supData[name].status === 'IS_NOT_CHECKED'){
+        if (checked){
             postStatus = 'IS_CHECKED';
         } else {
             postStatus = 'IS_NOT_CHECKED';
         }
-
+        
         await postApi(
             {
                 supplementId: supData[name].supplementId,
@@ -92,7 +127,7 @@ const LemonCheck = ({ date }) => {
             authContext.state.token,
         )
         .then(({ status, data }) => {
-            // console.log('status:', status);
+            // getThisDayTF();
         })
         .catch((e) => {
             console.log(e);
@@ -107,7 +142,7 @@ const LemonCheck = ({ date }) => {
                 <div>
                     <Checkbox {...label}
                         defaultChecked={supData[name].supplementId && supData[name].status === 'IS_CHECKED'}
-                        onClick={() => onClickOneSup(name)}
+                        onClick={(e) => onClickOneSup(name, e.target.checked)}
                         icon={<FaRegLemon size="20px" />}
                         checkedIcon={<FaLemon color={supInfo[name].color} size="20px" />} />
                     <span>{supInfo[name].korname}</span>
@@ -115,15 +150,26 @@ const LemonCheck = ({ date }) => {
                 </div>    
                 }
             </>
-        
         )
     }
-
+    
     return (
         <div className="lemonbox">
-            <OneSupplementComp name={'vitamin'} />
+            {
+                checkNone === 0 ?
+                (
+                    <div>복용 중인 영양제가 없습니다.<br /><Link to='/mypage'>마이페이지</Link>에서 영양제를 추가해주세요. </div>
+                ) : (
+                    supList.map(sup => 
+                        supData[sup].supplementId !== null &&
+                        <OneSupplementComp name={sup} />
+                    )
+                )
+            }
+            
+            {/* <OneSupplementComp name={'vitamin'} />
             <OneSupplementComp name={'probio'} />
-            <OneSupplementComp name={'omega'} />
+            <OneSupplementComp name={'omega'} /> */}
         </div>
     )
 }

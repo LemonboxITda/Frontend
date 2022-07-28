@@ -77,7 +77,7 @@ function App() {
           token: token,
           id: id,  // 유저 고유 id
           loginId: loginId,  // 유저 아이디
-          role: role, // 관리자일 경우 'ROLE_ADMIN'
+          role: role, // 관리자일 경우 'ROLE_ADMIN', 일반 'ROLE_USER'
         });
       } else {
         await dispatch({
@@ -99,7 +99,8 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/community" element={<Community />} />
+          <Route path="/community/page=:page" element={<Community />} />
+          <Route path="/community/page=:page/keyword=:keyword" element={<Community />} />
           <Route path="/write/:type/:id" element={<Post />} />
           <Route path="/post/:id" element={<PostDetail />} />
           <Route path="/mypage/community/:id" element={<MyPageComList />} />

@@ -6,9 +6,14 @@ import { Link } from "react-router-dom";
 const Wrapper = styled.div`
     .message-body-heading h5 {
         font-weight: 600;
+        text-align: left;
         display:inline-block;
         color: ${Colors.black};
         padding: 0;
+        width: 70%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .message-body-heading span {
