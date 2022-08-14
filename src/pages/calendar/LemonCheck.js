@@ -58,7 +58,7 @@ const LemonCheck = ({ date }) => {
                 authContext.state.token
             )
                 .then(({ status, data }) => {
-                    console.log('GET one pill', status, data);
+                    // console.log('GET one pill', status, data);
                     if (status === 200 && data.statusCodeValue === undefined) {
                         data &&
                         data !== [] &&
