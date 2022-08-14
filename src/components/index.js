@@ -1,4 +1,3 @@
-export { default as CalendarTest } from "./CalendarTest";
 export { default as ModalCalendar } from "./ModalCalendar";
 export { default as Header } from "./Header";
 export { default as MyPageCom } from "./MyPageCom";

@@ -29,7 +29,7 @@ const UsersList = () => {
                 authContext.state.token
             )
             .then(({ status, data }) => {
-                console.log(status, data);
+                // console.log(status, data);
                 if (status === 200 && data.statusCodeValue === undefined) {
                     setUserList(data.data);
                     setTotal(data.totalCount);

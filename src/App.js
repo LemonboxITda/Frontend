@@ -67,8 +67,8 @@ function App() {
       const loggedInfo = await JSON.parse(
         localStorage.getItem("loggedInfo")
       );
-      console.log("-------------새로 고침------------");
-      console.log(loggedInfo);
+      // console.log("-------------새로 고침------------");
+      // console.log(loggedInfo);
 
       if (loggedInfo) {
         const { token, id, loginId, role } = loggedInfo;

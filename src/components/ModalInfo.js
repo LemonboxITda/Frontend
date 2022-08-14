@@ -111,7 +111,7 @@ const ModalInfo = ({ open, close, header, nickname }) => {
             authContext.state.token
         )
         .then(({ status, data }) => {
-            console.log('PUT ', status, data);
+            // console.log('PUT ', status, data);
             close()
         })
         .catch((e) => {
@@ -120,7 +120,7 @@ const ModalInfo = ({ open, close, header, nickname }) => {
     }
 
     const save = async () => {
-        console.log('입력한 닉네임', name);
+        // console.log('입력한 닉네임', name);
         await axios.get(
             `${process.env.REACT_APP_BACK_BASE_URL}/auth/check/nickname?nickname=${name}`,
             {
@@ -131,7 +131,7 @@ const ModalInfo = ({ open, close, header, nickname }) => {
             },
         )
             .then(({ status, data }) => {
-                console.log(status, data);
+                // console.log(status, data);
                 if (status === 200) {
                     setIdCheck(true);
                     changeNickname(name);

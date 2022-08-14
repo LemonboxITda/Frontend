@@ -44,7 +44,7 @@ const initialSupInfo = {
 
 const LemonCheck = ({ date }) => {
     const authContext = useContext(AuthContext);
-    const calendarContext = useContext(CalendarContext);
+    // const calendarContext = useContext(CalendarContext);
     const [supData, setSupData] = useState(initialSupData);
     const [supInfo, setSupInfo] = useState(initialSupInfo);
     const [checkNone, setCheckNone] = useState(0);
@@ -58,7 +58,7 @@ const LemonCheck = ({ date }) => {
                 authContext.state.token
             )
                 .then(({ status, data }) => {
-                    // console.log('GET one pill', status, data);
+                    console.log('GET one pill', status, data);
                     if (status === 200 && data.statusCodeValue === undefined) {
                         data &&
                         data !== [] &&
@@ -160,9 +160,9 @@ const LemonCheck = ({ date }) => {
                 (
                     <div>복용 중인 영양제가 없습니다.<br /><Link to='/mypage'>마이페이지</Link>에서 영양제를 추가해주세요. </div>
                 ) : (
-                    supList.map(sup => 
+                    supList.map((sup, i) => 
                         supData[sup].supplementId !== null &&
-                        <OneSupplementComp name={sup} />
+                        <OneSupplementComp key={i} name={sup} />
                     )
                 )
             }

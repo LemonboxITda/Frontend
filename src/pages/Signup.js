@@ -48,7 +48,7 @@ const Signup = () => {
                 config
             )
                 .then(({ status, data }) => {
-                    console.log(status, data);
+                    // console.log(status, data);
                     if (status === 200) {
                         navigate("/login"); // 회원가입 성공 시 로그인창으로 이동
                     }
@@ -68,7 +68,7 @@ const Signup = () => {
                 config
             )
                 .then(({ status, data }) => {
-                    console.log(status, data);
+                    // console.log(status, data);
                     if (status === 200) {
                         setIdCheck(200);
                     } 
@@ -84,7 +84,7 @@ const Signup = () => {
                 config
             )
                 .then(({ status, data }) => {
-                    console.log(status, data);
+                    // console.log(status, data);
                     if (status === 200) {
                         setNameCheck(200);
                     } 

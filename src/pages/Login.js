@@ -27,7 +27,7 @@ const Login = () => {
                         }
                     }
                 )
-                console.log(res.data);
+                // console.log(res.data);
                 authContext.dispatch({
                     type: "login",
                     token: res.data.accessToken,

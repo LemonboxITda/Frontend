@@ -127,7 +127,7 @@ const ModalSup = ({ open, close, header, supData }) => {
                 authContext.state.token
             )
             .then(({ status, data }) => {
-                console.log('POST ', status, data);
+                // console.log('POST ', status, data);
             })
             .catch((e) => {
                 console.log(e);
@@ -145,7 +145,7 @@ const ModalSup = ({ open, close, header, supData }) => {
                 authContext.state.token
             )
             .then(({ status, data }) => {
-                console.log('PUT ', status, data);
+                // console.log('PUT ', status, data);
             })
             .catch((e) => {
                 console.log(e);

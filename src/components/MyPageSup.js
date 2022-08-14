@@ -132,6 +132,7 @@ const MyPageSup = () => {
                         data !== [] &&
                         data.map((sup, i) => (
                             supData[sup.name] = {
+                                key: i,
                                 id: sup.id,
                                 name: sup.name,
                                 count: sup.count,
