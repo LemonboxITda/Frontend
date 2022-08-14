@@ -15,7 +15,7 @@ const Community = () => {
     const [posts, setPosts] = useState([]);
     const [keyword, setKeyword] = useState('');
 
-    const size = 3;
+    const size = 4;
     const [total, setTotal] = useState(0);
 
     useEffect(() => {

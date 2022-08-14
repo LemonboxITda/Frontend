@@ -200,8 +200,8 @@ const MyPageSup = () => {
                         count > 0 && count <= 10 ? (
                             <span>
                                 <span style={{ fontWeight: '600' }}>[{count}알 / 30알]</span>
-                                거의 다 먹었군요!
-                                <a href={mallLink(name)}>새로 주문하러 가기&gt;&gt;</a>
+                                &nbsp;거의 다 먹었군요!&nbsp;
+                                <a href={mallLink(name)} target='_blank' rel='noreferrer'>새로 주문하러 가기&gt;&gt;</a>
                             </span>
                         ) : (
                             <span><span style={{ fontWeight: '600' }}>[{count}알 / 30알]</span> 오늘도 화이팅!</span>
