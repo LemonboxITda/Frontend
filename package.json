@@ -2,6 +2,10 @@
   "name": "lemonbox-frontend",
   "version": "0.1.0",
   "private": true,
+  "engine": {
+    "node": "16.15.0",
+    "npm": "8.12.2"
+  },
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -28,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": [
