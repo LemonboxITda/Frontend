@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import buildCalendar from "./Make";
-import dayStyles from "./Style";
 import Header from "./header"
 import { FaRegLemon, FaLemon } from 'react-icons/fa';
 import { TbCheckbox } from "react-icons/tb";
@@ -84,8 +83,10 @@ export default function Calendar({ value, onChange }) {
       )
         .then(({ status, data }) => {
           (data && 
-            data.map(d => 
-            d.count > 10 && openModal()
+            data.map((d, i) =>
+              <div key={i}>
+                {d.count < 10 && openModal()}
+              </div>
           )) 
         })
         .catch((e) => {
