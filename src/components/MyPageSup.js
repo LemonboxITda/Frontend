@@ -4,6 +4,7 @@ import { getApi } from "../api";
 import { Colors } from '../styles/ui';
 import { ModalSup } from '../components';
 import { AuthContext } from "../App";
+import { mallLink } from "./mallLink";
 
 const Wrapper = styled.div`
     margin-top: 40px;
@@ -173,19 +174,15 @@ const MyPageSup = () => {
         switch (name) {
             case 'vitamin':
                 kor_name = '종합비타민';
-                link_idx = 156;
                 break
             case 'probio':
                 kor_name = '프로바이오틱스';
-                link_idx = 159;
                 break
             case 'omega':
                 kor_name = '루테인 & 오메가3';
-                link_idx = 164;
                 break
             default:
                 kor_name = '종합비타민'
-                link_idx = 156;
         }
         return (
             <div class="supplement">
@@ -198,13 +195,13 @@ const MyPageSup = () => {
                 }
                 {
                     count === 0 ? (
-                        <span><a href={`https://lifevitamin.kr/22/?idx=${link_idx}`} target='_blank' rel='noreferrer'>영양제 주문하러 가기&gt;&gt;</a></span>
+                        <span><a href={mallLink(name)} target='_blank' rel='noreferrer'>영양제 주문하러 가기&gt;&gt;</a></span>
                     ) : (
                         count > 0 && count <= 10 ? (
                             <span>
                                 <span style={{ fontWeight: '600' }}>[{count}알 / 30알]</span>
                                 거의 다 먹었군요!
-                                <a href={`https://lifevitamin.kr/22/?idx=${link_idx}`}>새로 주문하러 가기&gt;&gt;</a>
+                                <a href={mallLink(name)}>새로 주문하러 가기&gt;&gt;</a>
                             </span>
                         ) : (
                             <span><span style={{ fontWeight: '600' }}>[{count}알 / 30알]</span> 오늘도 화이팅!</span>
@@ -214,9 +211,6 @@ const MyPageSup = () => {
             </div>
         )
     }
-    // https://lifevitamin.kr/22/?idx=156 종합비타민
-    // https://lifevitamin.kr/22/?idx=159 프로바이오
-    // https://lifevitamin.kr/22/?idx=164 오메가
 
     return (
         <Wrapper>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import { mallLink } from "./mallLink";
 
 const Wrapper = styled.div`
     .modal {
@@ -106,7 +107,7 @@ const ModalCalendar = ({ open, close, header }) => {
                         </header>
                         <main class="row">
                             <div class="col align-self-center">영양제가 얼마 남지 않았어요!</div>
-                            <a href="https://lifevitamin.kr/22" target='_blank' rel='noreferrer'><button>재구매 하러가기</button></a>
+                            <a href={mallLink('all')} target='_blank' rel='noreferrer'><button>재구매 하러가기</button></a>
                         </main>
                     </section>
                 ) : null}
