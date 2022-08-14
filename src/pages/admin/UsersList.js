@@ -10,7 +10,7 @@ const UsersList = () => {
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
     const [userList, setUserList] = useState([]);
-    const size = 3;
+    const size = 10;
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
 
