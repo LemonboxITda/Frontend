@@ -1,11 +1,24 @@
 # 🍋 Lemonbox
-레몬박스 기업 - 잇다 2기 연계 프로젝트
+레몬박스 기업 - 잇다 2기 연계 프로젝트(장현애)
 
 [프로젝트 링크](http://lemonbox-itda.herokuapp.com/)
 
 ### 주요 기능
 - 영양제 복용 체크 캘린더
 - 영양제 정보 공유 커뮤니티
+
+### 기술 스택
+- `Kotlin`, `Spring Boot`
+- `Spring Data JPA`, `Querydsl`
+- `Spring Security
+- AWS EC2, RDS
+- GitHub, Notion
+
+
+### API 문서
+
+
+### ERD
 
 
 ### 홈
